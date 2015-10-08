@@ -5,11 +5,12 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.exclusively.aggregator.controller.AggregationController;
-import com.exclusively.aggregator.services.OmsAggregatorService;
+import com.exclusively.aggregator.services.CatalogAggregatorService;
 
 /**
  * Works as a microservice client, fetching data from the OMS-Service. Uses the
@@ -22,9 +23,10 @@ import com.exclusively.aggregator.services.OmsAggregatorService;
 @EnableDiscoveryClient
 @EnableCircuitBreaker
 @ComponentScan
+@EnableZuulProxy
 public class AggregatorServer {
 
-	public static final String OMS_SERVICE_URL = "http://OMS-SERVICE";
+	public static final String OMS_SERVICE_URL = "http://NODE-CATALOG-API";
 
 	/**
 	 * Run the application using Spring Boot and an embedded servlet engine.
@@ -42,8 +44,8 @@ public class AggregatorServer {
 	 * @return A new service instance.
 	 */
 	@Bean
-	public OmsAggregatorService orderService() {
-		return new OmsAggregatorService(OMS_SERVICE_URL);
+	public CatalogAggregatorService orderService() {
+		return new CatalogAggregatorService(OMS_SERVICE_URL);
 	}
 
 	/**

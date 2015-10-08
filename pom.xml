@@ -10,7 +10,7 @@
 		<artifactId>spring-cloud-starter-parent</artifactId>
 		<version>Angel.SR3</version>
 	</parent>
-
+	<packaging>jar</packaging>
 	<properties>
 
 		<!-- Generic properties -->
@@ -46,6 +46,11 @@
 			<!-- Setup Spring MVC & REST, use Embedded Tomcat -->
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.netflix.zuul</groupId>
+			<artifactId>zuul-netflix</artifactId>
+			<version>1.1.0-rc.1</version>
 		</dependency>
 
 		<dependency>

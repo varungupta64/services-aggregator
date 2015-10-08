@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exclusively.aggregator.entities.Order;
-import com.exclusively.aggregator.services.OmsAggregatorService;
+import com.exclusively.aggregator.services.CatalogAggregatorService;
 
 /**
  * Client controller, fetches Order info from the microservice
@@ -20,7 +19,7 @@ import com.exclusively.aggregator.services.OmsAggregatorService;
 public class AggregationController {
 
 	@Autowired
-	protected OmsAggregatorService orderService;
+	protected CatalogAggregatorService catalogService;
 
 	protected Logger logger = Logger.getLogger(AggregationController.class.getName());
 
@@ -29,46 +28,23 @@ public class AggregationController {
 		return "index";
 	}
 
-	@RequestMapping(value = "/orders/{orderNo}")
-	public @ResponseBody Order byNumber(@PathVariable("orderNo") String orderNo) {
+	@RequestMapping(value = "/category/id/{catId}")
+	public @ResponseBody String getByCategoryId(@PathVariable("catId") String catId) {
 
-		logger.info("web-service byNumber() invoked: " + orderNo);
+		logger.info("Catalog service invoked with params: " + catId);
 
-		Order account = orderService.findByOrderNumber(orderNo);
-		logger.info("web-service byNumber() found: " + account);
+		String account = catalogService.findCategoryByCatId(catId);
+		
 		return account;
 	}
-
 	
-//	@RequestMapping(value = "/orders/{orderNo}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
-//	    public DeferredResult<Order> movieDetails(@PathVariable String orderNo) {
-//	        Observable<Order> details = Observable.zip(
-//	                orderService.findByOrderNumber(orderNo),
-//	                (order) -> {
-//	                    return order;
-//	                }
-//	        );
-//	        return toDeferredResult(details);
-//	    }
-//
-//	    public DeferredResult<Order> toDeferredResult(Observable<Order> details) {
-//	        DeferredResult<Order> result = new DeferredResult<>();
-//	        details.subscribe(new Observer<Order>() {
-//	            @Override
-//	            public void onCompleted() {
-//	            }
-//
-//	            @Override
-//	            public void onError(Throwable throwable) {
-//	            }
-//
-//	            @Override
-//	            public void onNext(Order movieDetails) {
-//	                result.setResult(movieDetails);
-//	            }
-//	        });
-//	        return result;
-//	    }
-	    
-	    
+	@RequestMapping(value = "/category/productlist/{params}")
+	public @ResponseBody String getProductList(@PathVariable("params") String params) {
+
+		logger.info("Catalog service invoked with params: " + params);
+
+		String account = catalogService.findProducts(params);
+		
+		return account;
+	}
 }
