@@ -1,28 +1,28 @@
-# Spring properties
-spring:
-  application:
-    name: aggregator-service  # Identify this application
-  freemarker:
-    enabled: false     # Ignore Eureka dashboard FreeMarker templates
-
-# Map the error path to error template (for Thymeleaf)
-error: path=/error
-
-# Discovery Server Access
-eureka:
-  instance:
-    hostname: 10.10.2.132
-  client:
-    serviceUrl:
-      defaultZone: http://10.10.2.134:1111/eureka/
-
-# HTTP Server
-server:
-  port: 3333   # HTTP (Tomcat) port
-  
- #zuul routing 
-zuul:
-  routes:
-    NODE-CATALOG-API: 
-       path: /product/**
-       stripPrefix: false
+## Spring properties
+#spring:
+#  application:
+#    name: aggregator-service  # Identify this application
+#  freemarker:
+#    enabled: false     # Ignore Eureka dashboard FreeMarker templates
+#
+## Map the error path to error template (for Thymeleaf)
+#error: path=/error
+#
+## Discovery Server Access
+#eureka:
+#  instance:
+#    hostname: 10.10.2.132
+#  client:
+#    serviceUrl:
+#      defaultZone: http://10.10.2.134:1111/eureka/
+#
+## HTTP Server
+#server:
+#  port: 3333   # HTTP (Tomcat) port
+#  
+# #zuul routing 
+#zuul:
+#  routes:
+#    NODE-CATALOG-API: 
+#       path: /product/**
+#       stripPrefix: false

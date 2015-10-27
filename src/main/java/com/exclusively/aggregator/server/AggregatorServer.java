@@ -3,11 +3,12 @@ package com.exclusively.aggregator.server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.integration.config.EnableIntegration;
+import org.springframework.integration.kafka.core.ConnectionFactory;
+import org.springframework.integration.kafka.core.KafkaTemplate;
 
 import com.exclusively.aggregator.controller.AggregationController;
 import com.exclusively.aggregator.services.CatalogAggregatorService;
@@ -20,13 +21,14 @@ import com.exclusively.aggregator.services.CatalogAggregatorService;
  */
 @SpringBootApplication
 @EnableAutoConfiguration
-@EnableDiscoveryClient
-@EnableCircuitBreaker
+//@EnableDiscoveryClient
+//@EnableCircuitBreaker
 @ComponentScan
 @EnableZuulProxy
+@EnableIntegration
 public class AggregatorServer {
 
-	public static final String OMS_SERVICE_URL = "http://NODE-CATALOG-API";
+	public static final String OMS_SERVICE_URL = "http://FLOOR-API";
 
 	/**
 	 * Run the application using Spring Boot and an embedded servlet engine.
@@ -57,4 +59,14 @@ public class AggregatorServer {
 	public AggregationController aggregatorController() {
 		return new AggregationController();
 	}
+	@Bean
+	public KafkaTemplate kafkaTemplate() {
+		return new KafkaTemplate(connectionFactory());
+	}
+
+	private ConnectionFactory connectionFactory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

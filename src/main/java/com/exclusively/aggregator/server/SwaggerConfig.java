@@ -1,5 +1,6 @@
 package com.exclusively.aggregator.server;
 
+import com.exclusively.aggregator.zuul.filters.ProductPopulaityFilter;
 import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
 import com.mangofactory.swagger.models.dto.ApiInfo;
 import com.mangofactory.swagger.plugin.*;
@@ -36,5 +37,8 @@ public class SwaggerConfig {
                 //Here we specify URI patterns which will be included in Swagger docs. Use regex for this purpose.
                 .includePatterns("/orders.*");
     }
-
+    @Bean
+    public ProductPopulaityFilter productPopulaityFilter() {
+    	return new ProductPopulaityFilter();
+    }
 }
