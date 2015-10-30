@@ -1,24 +1,38 @@
 package com.exclusively.aggregator.zuul.filters;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.integration.core.MessageProducer;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 public class ProductPopulaityFilter extends ZuulFilter {
-	
+
 	@Override
 	public Object run() {
-		System.out.println("Filter Called");
-		//TODO add kafka message logger
+		long timeStart = System.currentTimeMillis();
+		RequestContext context = RequestContext.getCurrentContext();
+			try {
+				//TODO configure logback
+				 log.info(context.getRequest().getRemoteHost() +"," + context.getRequest().getRequestURI().split("/")[4]);
+				 System.out.println(context.getRequest().getRemoteHost() +"," + context.getRequest().getRequestURI().split("/")[4]);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				System.out.println("Time taken by filter " + (System.currentTimeMillis()- timeStart));
+			}
+			
+		
 		return null;
 	}
 
 	@Override
 	public boolean shouldFilter() {
-		// TODO Auto-generated method stub
-		return RequestContext.getCurrentContext().getRequest().getRequestURI().endsWith("getFloors");
+		return RequestContext.getCurrentContext().getRequest().getRequestURI().contains("product/id") 
+				&& RequestContext.getCurrentContext().getRequest().getMethod().equals(RequestMethod.GET.name())
+				&& (RequestContext.getCurrentContext().getResponseStatusCode() == 200);
 	}
 
 	@Override
