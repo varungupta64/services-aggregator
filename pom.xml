@@ -86,14 +86,14 @@
 			<artifactId>spring-cloud-starter</artifactId>
 		</dependency>
 		<dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-integration</artifactId>
-    </dependency>
-	 <dependency>
-      <groupId>org.springframework.integration</groupId>
-      <artifactId>spring-integration-kafka</artifactId>
-      <version>1.2.1.RELEASE</version>
-    </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-integration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-kafka</artifactId>
+			<version>1.2.1.RELEASE</version>
+		</dependency>
 		<dependency>
 			<!-- Eureka service registration -->
 			<groupId>org.springframework.cloud</groupId>
@@ -106,9 +106,14 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-cypher-compiler-2.1</artifactId>
-			<version>2.1.5</version>
+			<groupId>com.netflix.hystrix</groupId>
+			<artifactId>hystrix-servo-metrics-publisher</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.netflix.servo</groupId>
+			<artifactId>servo-graphite</artifactId>
+			<version>0.4.46</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mangofactory</groupId>
