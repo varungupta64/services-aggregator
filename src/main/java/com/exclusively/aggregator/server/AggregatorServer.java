@@ -12,8 +12,6 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.integration.config.EnableIntegration;
-import org.springframework.integration.kafka.core.ConnectionFactory;
-import org.springframework.integration.kafka.core.KafkaTemplate;
 
 import com.exclusively.aggregator.controller.AggregationController;
 import com.exclusively.aggregator.services.CatalogAggregatorService;
@@ -72,15 +70,7 @@ public class AggregatorServer {
 	public AggregationController aggregatorController() {
 		return new AggregationController();
 	}
-	@Bean
-	public KafkaTemplate kafkaTemplate() {
-		return new KafkaTemplate(connectionFactory());
-	}
-
-	private ConnectionFactory connectionFactory() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	@Bean
 	public PollScheduler runMonitoring() {
 		HystrixPlugins.getInstance().registerMetricsPublisher(HystrixServoMetricsPublisher.getInstance());
@@ -90,7 +80,7 @@ public class AggregatorServer {
 		// Minimal Servo configuration for publishing to Graphite
 		final List<MetricObserver> observers = new ArrayList<MetricObserver>();
 
-		observers.add(new GraphiteMetricObserver("Test", "graphite-server.example.com:2003"));
+		observers.add(new GraphiteMetricObserver("Test", "10.30.59.201:2003"));
 		PollScheduler.getInstance().start();
 		PollRunnable task = new PollRunnable(new MonitorRegistryMetricPoller(), BasicMetricFilter.MATCH_ALL, true, observers);
 		PollScheduler scheduler = PollScheduler.getInstance();

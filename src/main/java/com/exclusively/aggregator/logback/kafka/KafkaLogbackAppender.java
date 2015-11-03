@@ -122,6 +122,7 @@ public class KafkaLogbackAppender extends AppenderBase<ILoggingEvent> {
 		super.start();
 		Properties props = new Properties();
 		props.put("metadata.broker.list", this.brokerList);
+//		props.put("zk.connect","10.11.16.10:2181,10.11.16.11:2181,10.11.16.12:2181");
 		props.put("serializer.class", "kafka.serializer.StringEncoder");
 		props.put("producer.type", this.producerType);
 		props.put("compression.codec", this.compressionCodec);
@@ -142,7 +143,12 @@ public class KafkaLogbackAppender extends AppenderBase<ILoggingEvent> {
 	@Override
 	protected void append(ILoggingEvent event) {
 		KeyedMessage<String, String> data = new KeyedMessage<String, String>(this.topic, null, (String) event.getFormattedMessage());
-		this.producer.send(data);
+		try {
+			this.producer.send(data);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

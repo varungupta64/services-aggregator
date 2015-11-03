@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>    
+   <appender name="KAFKA" class="com.exclusively.aggregator.logback.kafka.KafkaLogbackAppender">
+    <topic>product-view-log</topic>
+    <brokerList>10.11.19.21:9092,10.11.19.22:9092</brokerList>
+    <producerType>async</producerType>
+  </appender>
+  <logger name="com.exclusively.aggregator.zuul.filters" level="INFO">
+  	<appender-ref ref="KAFKA"/>
+  </logger>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <logger name="org.springframework" level="ERROR">
+   <appender-ref ref="STDOUT" />
+  </logger>
+</configuration>
