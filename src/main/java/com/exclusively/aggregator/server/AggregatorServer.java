@@ -1,28 +1,24 @@
 package com.exclusively.aggregator.server;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.integration.config.EnableIntegration;
 
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.graphite.Graphite;
+import com.codahale.metrics.graphite.GraphiteReporter;
+import com.codahale.metrics.graphite.GraphiteSender;
 import com.exclusively.aggregator.controller.AggregationController;
 import com.exclusively.aggregator.services.CatalogAggregatorService;
-import com.netflix.hystrix.contrib.servopublisher.HystrixServoMetricsPublisher;
-import com.netflix.hystrix.strategy.HystrixPlugins;
-import com.netflix.servo.publish.BasicMetricFilter;
-import com.netflix.servo.publish.MetricObserver;
-import com.netflix.servo.publish.MonitorRegistryMetricPoller;
-import com.netflix.servo.publish.PollRunnable;
-import com.netflix.servo.publish.PollScheduler;
-import com.netflix.servo.publish.graphite.GraphiteMetricObserver;
 
 /**
  * Works as a microservice client, fetching data from the OMS-Service. Uses the
@@ -32,7 +28,7 @@ import com.netflix.servo.publish.graphite.GraphiteMetricObserver;
  */
 @SpringBootApplication
 @EnableAutoConfiguration
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 @EnableCircuitBreaker
 @ComponentScan
 @EnableZuulProxy
@@ -71,21 +67,33 @@ public class AggregatorServer {
 		return new AggregationController();
 	}
 	
+//	@Bean
+//	public PollScheduler runMonitoring() {
+//		HystrixPlugins.getInstance().registerMetricsPublisher(HystrixServoMetricsPublisher.getInstance());
+//
+//		
+//
+//		// Minimal Servo configuration for publishing to Graphite
+//		final List<MetricObserver> observers = new ArrayList<MetricObserver>();
+//
+//		observers.add(new GraphiteMetricObserver("Test", "10.30.59.201:2003"));
+//		PollScheduler.getInstance().start();
+//		PollRunnable task = new PollRunnable(new MonitorRegistryMetricPoller(), BasicMetricFilter.MATCH_ALL, true, observers);
+//		PollScheduler scheduler = PollScheduler.getInstance();
+//				scheduler.addPoller(task, 5, TimeUnit.SECONDS);
+//		return scheduler;
+//	}
 	@Bean
-	public PollScheduler runMonitoring() {
-		HystrixPlugins.getInstance().registerMetricsPublisher(HystrixServoMetricsPublisher.getInstance());
-
-		
-
-		// Minimal Servo configuration for publishing to Graphite
-		final List<MetricObserver> observers = new ArrayList<MetricObserver>();
-
-		observers.add(new GraphiteMetricObserver("Test", "10.30.59.201:2003"));
-		PollScheduler.getInstance().start();
-		PollRunnable task = new PollRunnable(new MonitorRegistryMetricPoller(), BasicMetricFilter.MATCH_ALL, true, observers);
-		PollScheduler scheduler = PollScheduler.getInstance();
-				scheduler.addPoller(task, 5, TimeUnit.SECONDS);
-		return scheduler;
+	public GraphiteReporter graphiteReporter(MetricRegistry metricRegistry) {
+	    final GraphiteReporter reporter = GraphiteReporter
+	            .forRegistry(metricRegistry)
+	            .build(graphite());
+	    reporter.start(1, TimeUnit.SECONDS);
+	    return reporter;
 	}
-
+	 
+	@Bean
+	GraphiteSender graphite() {
+	    return new Graphite(new InetSocketAddress("10.30.59.201", 2003));
+	}
 }
