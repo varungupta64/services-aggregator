@@ -186,5 +186,13 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<resources>
+        	<resource>
+        		<directory></directory>
+        		<excludes>
+          			<exclude>**/*.properties</exclude>
+        		</excludes>
+        	</resource>
+    	</resources>
 	</build>
 </project>
