@@ -94,6 +94,6 @@ public class AggregatorServer {
 	 
 	@Bean
 	GraphiteSender graphite() {
-	    return new Graphite(new InetSocketAddress("10.30.59.201", 2003));
+	    return new Graphite(new InetSocketAddress("10.11.19.18", 2003));
 	}
 }
