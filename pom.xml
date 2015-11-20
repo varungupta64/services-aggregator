@@ -141,6 +141,24 @@
 			<artifactId>spring-cloud-starter-ribbon</artifactId>
 		</dependency>
 
+		<!-- Swagger -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-spring-web</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<!-- Swagger UI -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-jmx</artifactId>
@@ -187,14 +205,14 @@
 			</plugin>
 		</plugins>
 		<resources>
-        	<resource>
-        		<directory>
+			<resource>
+				<directory>
         		src/main/resources
         		</directory>
-        		<excludes>
-          			<exclude>**/*.properties</exclude>
-        		</excludes>
-        	</resource>
-    	</resources>
-    		</build>
+				<excludes>
+					<exclude>**/*.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
+	</build>
 </project>
