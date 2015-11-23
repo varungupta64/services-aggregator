@@ -47,11 +47,24 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.4</version>
+		</dependency>
 
 		<dependency>
 			<!-- Setup Spring MVC & REST, use Embedded Tomcat -->
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+			<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+				<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-oauth2</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -186,15 +199,15 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<resources>
-        	<resource>
-        		<directory>
+		<!-- <resources>
+			<resource>
+				<directory>
         		src/main/resources
         		</directory>
-        		<excludes>
-          			<exclude>**/*.properties</exclude>
-        		</excludes>
-        	</resource>
-    	</resources>
-    		</build>
+				<excludes>
+					<exclude>**/*.properties</exclude>
+				</excludes>
+			</resource>
+		</resources> -->
+	</build>
 </project>

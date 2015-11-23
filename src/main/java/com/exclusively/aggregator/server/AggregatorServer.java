@@ -18,6 +18,8 @@ import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
 import com.codahale.metrics.graphite.GraphiteSender;
 import com.exclusively.aggregator.controller.AggregationController;
+import com.exclusively.aggregator.controller.CartAggregationController;
+import com.exclusively.aggregator.services.CartAggregatorService;
 import com.exclusively.aggregator.services.CatalogAggregatorService;
 
 /**
@@ -28,10 +30,10 @@ import com.exclusively.aggregator.services.CatalogAggregatorService;
  */
 @SpringBootApplication
 @EnableAutoConfiguration
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 @EnableCircuitBreaker
 @ComponentScan
-@EnableZuulProxy
+//@EnableZuulProxy
 @EnableIntegration
 public class AggregatorServer {
 
@@ -63,8 +65,28 @@ public class AggregatorServer {
 	 * @return A new service instance.
 	 */
 	@Bean
+	public CartAggregatorService cartService() {
+		return new CartAggregatorService();
+	}
+		
+	/**
+	 * The AccountService encapsulates the interaction with the micro-service.
+	 * 
+	 * @return A new service instance.
+	 */
+	@Bean
 	public AggregationController aggregatorController() {
 		return new AggregationController();
+	}
+	
+	/**
+	 * The AccountService encapsulates the interaction with the micro-service.
+	 * 
+	 * @return A new service instance.
+	 */
+	@Bean
+	public CartAggregationController cartController() {
+		return new CartAggregationController();
 	}
 	
 //	@Bean
@@ -83,17 +105,17 @@ public class AggregatorServer {
 //				scheduler.addPoller(task, 5, TimeUnit.SECONDS);
 //		return scheduler;
 //	}
-	@Bean
-	public GraphiteReporter graphiteReporter(MetricRegistry metricRegistry) {
-	    final GraphiteReporter reporter = GraphiteReporter
-	            .forRegistry(metricRegistry)
-	            .build(graphite());
-	    reporter.start(1, TimeUnit.SECONDS);
-	    return reporter;
-	}
-	 
-	@Bean
-	GraphiteSender graphite() {
-	    return new Graphite(new InetSocketAddress("10.11.19.18", 2003));
-	}
+//	@Bean
+//	public GraphiteReporter graphiteReporter(MetricRegistry metricRegistry) {
+//	    final GraphiteReporter reporter = GraphiteReporter
+//	            .forRegistry(metricRegistry)
+//	            .build(graphite());
+//	    reporter.start(1, TimeUnit.SECONDS);
+//	    return reporter;
+//	}
+//	 
+//	@Bean
+//	GraphiteSender graphite() {
+//	    return new Graphite(new InetSocketAddress("10.11.19.18", 2003));
+//	}
 }
