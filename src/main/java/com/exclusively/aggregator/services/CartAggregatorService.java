@@ -170,12 +170,18 @@ public class CartAggregatorService {
 			CompactProduct product = products.get(0);
 			int availableQty = Integer.parseInt(product.getQty());
 			if (availableQty >= quantity) {
-				String urlParams = ID + SEPERATOR + id + SEPERATOR + IS_GUEST + SEPERATOR + isGuest + SEPERATOR + PRODUCT_ID
-						+ SEPERATOR + sku + SEPERATOR + QUANTITY + SEPERATOR + quantity;
+				String urlParams = "removeProduct/" + ID + SEPERATOR + id + SEPERATOR + IS_GUEST + SEPERATOR + isGuest
+						+ SEPERATOR + PRODUCT_ID + SEPERATOR + sku + SEPERATOR + QUANTITY + SEPERATOR + quantity;
 				String sendGet = sendGet(urlParams);
 				return sendGet;
 			}
 		}
 		return HttpStatus.BAD_REQUEST.name();
+	}
+
+	public String removeProduct(String id, String sku) {
+		String urlParams = "removeProduct/" + ID + SEPERATOR + "productId" + SEPERATOR + sku;
+		String sendGet = sendGet(urlParams);
+		return sendGet;
 	}
 }

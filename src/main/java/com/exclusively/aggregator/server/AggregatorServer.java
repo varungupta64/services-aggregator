@@ -10,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,6 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
 import com.codahale.metrics.graphite.GraphiteSender;
-import com.exclusively.aggregator.controller.AggregationController;
 import com.exclusively.aggregator.services.CatalogAggregatorService;
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Lists;
@@ -50,10 +51,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @SpringBootApplication
 @EnableAutoConfiguration
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 @EnableCircuitBreaker
 @ComponentScan
-//@EnableZuulProxy
+@EnableZuulProxy
 @EnableIntegration
 @EnableSwagger2
 public class AggregatorServer {
@@ -75,10 +76,10 @@ public class AggregatorServer {
 	 * 
 	 * @return A new service instance.
 	 */
-	@Bean
-	public CatalogAggregatorService orderService() {
-		return new CatalogAggregatorService(OMS_SERVICE_URL);
-	}
+//	@Bean
+//	public CatalogAggregatorService orderService() {
+//		return new CatalogAggregatorService(OMS_SERVICE_URL);
+//	}
 
 	/**
 	 * The AccountService encapsulates the interaction with the micro-service.

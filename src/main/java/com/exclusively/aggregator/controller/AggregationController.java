@@ -18,7 +18,7 @@ import com.exclusively.aggregator.services.CatalogAggregatorService;
 @RestController
 public class AggregationController {
 
-	@Autowired
+//	@Autowired
 	protected CatalogAggregatorService catalogService;
 
 	protected Logger logger = Logger.getLogger(AggregationController.class.getName());

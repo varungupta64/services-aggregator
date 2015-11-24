@@ -9,7 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.cloud.security.oauth2.sso.EnableOAuth2Sso;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -30,7 +30,7 @@ public class LoginConfigurer extends WebSecurityConfigurerAdapter {
 //		.csrfTokenRepository(csrfTokenRepository()).and()
 //		.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
 		
-		http.antMatcher("/cart/**").authorizeRequests().anyRequest()
+		http.antMatcher("/**").authorizeRequests().anyRequest()
 				.hasAnyRole("AUTHENTICATED_USER","ANONYMOUS").and()
 //				.csrfTokenRepository(csrfTokenRepository()).and()
 //				.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
