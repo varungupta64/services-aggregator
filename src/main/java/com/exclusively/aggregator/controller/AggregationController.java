@@ -23,10 +23,7 @@ public class AggregationController {
 
 	protected Logger logger = Logger.getLogger(AggregationController.class.getName());
 
-	@RequestMapping("/")
-	public String goHome() {
-		return "index";
-	}
+
 
 	@RequestMapping(value = "/category/id/{catId}")
 	public @ResponseBody String getByCategoryId(@PathVariable("catId") String catId) {
@@ -34,17 +31,19 @@ public class AggregationController {
 		logger.info("Catalog service invoked with params: " + catId);
 
 		String account = catalogService.findCategoryByCatId(catId);
-		
+
 		return account;
 	}
-	
+
 	@RequestMapping(value = "/category/productlist/{params}")
 	public @ResponseBody String getProductList(@PathVariable("params") String params) {
 
 		logger.info("Catalog service invoked with params: " + params);
 
 		String account = catalogService.findProducts(params);
-		
+
 		return account;
 	}
+
+
 }

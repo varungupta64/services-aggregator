@@ -1,28 +1,17 @@
-## Spring properties
-#spring:
-#  application:
-#    name: aggregator-service  # Identify this application
-#  freemarker:
-#    enabled: false     # Ignore Eureka dashboard FreeMarker templates
-#
-## Map the error path to error template (for Thymeleaf)
-#error: path=/error
-#
-## Discovery Server Access
-#eureka:
-#  instance:
-#    hostname: 10.10.2.132
-#  client:
-#    serviceUrl:
-#      defaultZone: http://10.10.2.134:1111/eureka/
-#
-## HTTP Server
-#server:
-#  port: 3333   # HTTP (Tomcat) port
-#  
-# #zuul routing 
-#zuul:
-#  routes:
-#    NODE-CATALOG-API: 
-#       path: /product/**
-#       stripPrefix: false
+security:
+  oauth2:
+    client:
+      accessTokenUri: http://10.30.58.8:8080/uaa/oauth/token
+      userAuthorizationUri: http://10.30.58.8:8080/uaa/oauth/authorize
+      clientId: acme
+      clientSecret: acmesecret
+    resource:
+      jwt:
+        keyValue: |
+          -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnGp/Q5lh0P8nPL21oMMrt2RrkT9AW5jgYwLfSUnJVc9G6uR3cXRRDCjHqWU5WYwivcF180A6CWp/ireQFFBNowgc5XaA0kPpzEtgsA5YsNX7iSnUibB004iBTfU9hZ2Rbsc8cWqynT0RyN4TP1RYVSeVKvMQk4GT1r7JCEC+TNu1ELmbNwMQyzKjsfBXyIOCFU/E94ktvsTZUHF4Oq44DBylCDsS1k7/sfZC2G5EU7Oz0mhG8+Uz6MSEQHtoIi6mc8u64Rwi3Z3tscuWG2ShtsUFuNSAFNkY7LkLn+/hxLCu2bNISMaESa8dG22CIMuIeRLVcAmEWEWH5EEforTg+QIDAQAB
+          -----END PUBLIC KEY-----
+      id: openid
+      serviceId: ${PREFIX:}resource
+      userInfoUri: http://10.30.58.8:8080/uaa/user
+      preferTokenInfo: false

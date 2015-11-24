@@ -1,8 +1,5 @@
 package com.exclusively.aggregator.server;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static springfox.documentation.schema.AlternateTypeRules.newRule;
-
 import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -13,8 +10,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +24,12 @@ import com.codahale.metrics.graphite.GraphiteSender;
 import com.exclusively.aggregator.controller.AggregationController;
 import com.exclusively.aggregator.services.CatalogAggregatorService;
 import com.fasterxml.classmate.TypeResolver;
+import com.google.common.collect.Lists;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.schema.WildcardType;
 import springfox.documentation.service.ApiKey;
@@ -53,10 +50,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @SpringBootApplication
 @EnableAutoConfiguration
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 @EnableCircuitBreaker
 @ComponentScan
-@EnableZuulProxy
+//@EnableZuulProxy
 @EnableIntegration
 @EnableSwagger2
 public class AggregatorServer {
@@ -88,11 +85,20 @@ public class AggregatorServer {
 	 * 
 	 * @return A new service instance.
 	 */
-	@Bean
-	public AggregationController aggregatorController() {
-		return new AggregationController();
-	}
-
+//	@Bean
+//	public CartAggregatorService cartService() {
+//		return new CartAggregatorService();
+//	}
+		
+	/**
+	 * The AccountService encapsulates the interaction with the micro-service.
+	 * 
+	 * @return A new service instance.
+	 */
+//	@Bean
+//	public AggregationController aggregatorController() {
+//		return new AggregationController();
+//	}
 	//	@Bean
 	//	public PollScheduler runMonitoring() {
 	//		HystrixPlugins.getInstance().registerMetricsPublisher(HystrixServoMetricsPublisher.getInstance());
@@ -135,18 +141,18 @@ public class AggregatorServer {
 						String.class)
 				.genericModelSubstitutes(ResponseEntity.class)
 				.alternateTypeRules(
-						newRule(typeResolver.resolve(DeferredResult.class,
+						AlternateTypeRules.newRule(typeResolver.resolve(DeferredResult.class,
 								typeResolver.resolve(ResponseEntity.class, WildcardType.class)),
 								typeResolver.resolve(WildcardType.class)))
 				.useDefaultResponseMessages(false)
 				.globalResponseMessage(RequestMethod.GET,
-						newArrayList(new ResponseMessageBuilder()
+						Lists.newArrayList(new ResponseMessageBuilder()
 								.code(500)
 								.message("500 message")
 								.responseModel(new ModelRef("Error"))
 								.build()))
-				.securitySchemes(newArrayList(apiKey()))
-				.securityContexts(newArrayList(securityContext()))
+				.securitySchemes(Lists.newArrayList(apiKey()))
+				.securityContexts(Lists.newArrayList(securityContext()))
 				//.enableUrlTemplating(true)
 				;
 	}
@@ -170,7 +176,7 @@ public class AggregatorServer {
 		= new AuthorizationScope("global", "accessEverything");
 		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
 		authorizationScopes[0] = authorizationScope;
-		return newArrayList(
+		return Lists.newArrayList(
 				new SecurityReference("mykey", authorizationScopes));
 	}
 
@@ -185,7 +191,48 @@ public class AggregatorServer {
 
 	@Bean
 	UiConfiguration uiConfig() {
-		return new UiConfiguration(
-				"validatorUrl");
+		return new UiConfiguration("validatorUrl");
 	}
+
+	
+//	/**
+//	 * The AccountService encapsulates the interaction with the micro-service.
+//	 * 
+//	 * @return A new service instance.
+//	 */
+//	@Bean
+//	public CartAggregationController cartController() {
+//		return new CartAggregationController();
+//	}
+	
+//	@Bean
+//	public PollScheduler runMonitoring() {
+//		HystrixPlugins.getInstance().registerMetricsPublisher(HystrixServoMetricsPublisher.getInstance());
+//
+//		
+//
+//		// Minimal Servo configuration for publishing to Graphite
+//		final List<MetricObserver> observers = new ArrayList<MetricObserver>();
+//
+//		observers.add(new GraphiteMetricObserver("Test", "10.30.59.201:2003"));
+//		PollScheduler.getInstance().start();
+//		PollRunnable task = new PollRunnable(new MonitorRegistryMetricPoller(), BasicMetricFilter.MATCH_ALL, true, observers);
+//		PollScheduler scheduler = PollScheduler.getInstance();
+//				scheduler.addPoller(task, 5, TimeUnit.SECONDS);
+//		return scheduler;
+//	}
+//	@Bean
+//	public GraphiteReporter graphiteReporter(MetricRegistry metricRegistry) {
+//	    final GraphiteReporter reporter = GraphiteReporter
+//	            .forRegistry(metricRegistry)
+//	            .build(graphite());
+//	    reporter.start(1, TimeUnit.SECONDS);
+//	    return reporter;
+//	}
+//	 
+//	@Bean
+//	GraphiteSender graphite() {
+//	    return new Graphite(new InetSocketAddress("10.11.19.18", 2003));
+//	}
+
 }
