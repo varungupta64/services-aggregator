@@ -64,11 +64,14 @@ public class CartAggregationController {
 		Map<String, String> result = new HashMap<>();
 		if (name.equals("anonymousUser")) {
 			String visitorId = null;
-			for (Cookie cookie : request.getCookies()) {
-				if (cookie.getName().equals("visitorId")) {
-					visitorId = cookie.getValue();
+			if(request.getCookies() != null) {
+				for (Cookie cookie : request.getCookies()) {
+					if (cookie.getName().equals("visitorId")) {
+						visitorId = cookie.getValue();
+					}
 				}
 			}
+			
 			if (StringUtils.isEmpty(visitorId)) {
 				visitorId = UUID.randomUUID().toString();
 				Cookie cookie = new Cookie("visitorId", visitorId);

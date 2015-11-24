@@ -57,11 +57,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableAutoConfiguration
 @EnableDiscoveryClient
 @EnableCircuitBreaker
-@ComponentScan
 @EnableZuulProxy
 @EnableIntegration
 @EnableSwagger2
-@EnableOAuth2Sso
+@ComponentScan(basePackages={"com.exclusively"})
 public class AggregatorServer {
 
 	public static final String OMS_SERVICE_URL = "http://FLOOR-API";
@@ -91,20 +90,20 @@ public class AggregatorServer {
 	 * 
 	 * @return A new service instance.
 	 */
-	@Bean
-	public CartAggregatorService cartService() {
-		return new CartAggregatorService();
-	}
+//	@Bean
+//	public CartAggregatorService cartService() {
+//		return new CartAggregatorService();
+//	}
 		
 	/**
 	 * The AccountService encapsulates the interaction with the micro-service.
 	 * 
 	 * @return A new service instance.
 	 */
-	@Bean
-	public AggregationController aggregatorController() {
-		return new AggregationController();
-	}
+//	@Bean
+//	public AggregationController aggregatorController() {
+//		return new AggregationController();
+//	}
 	//	@Bean
 	//	public PollScheduler runMonitoring() {
 	//		HystrixPlugins.getInstance().registerMetricsPublisher(HystrixServoMetricsPublisher.getInstance());
@@ -204,11 +203,11 @@ public class AggregatorServer {
 //	 * 
 //	 * @return A new service instance.
 //	 */
-	@Bean
-	public CartAggregationController cartController() {
-		return new CartAggregationController();
-	}
-	
+//	@Bean
+//	public CartAggregationController cartController() {
+//		return new CartAggregationController();
+//	}
+//	
 //	@Bean
 //	public PollScheduler runMonitoring() {
 //		HystrixPlugins.getInstance().registerMetricsPublisher(HystrixServoMetricsPublisher.getInstance());

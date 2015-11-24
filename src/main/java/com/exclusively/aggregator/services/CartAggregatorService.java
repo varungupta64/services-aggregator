@@ -34,7 +34,6 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
  * @author Anshul Chauhan
  */
 @Component
-@Service
 public class CartAggregatorService {
 
 	public static String ID = "id";

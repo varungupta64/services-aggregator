@@ -16,8 +16,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
  * 
  * @author Anshul Chauhan
  */
-@Component
-@Service
+
 public class CatalogAggregatorService {
 
 	@Autowired

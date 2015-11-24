@@ -6,8 +6,8 @@ security:
   
   oauth2:
     client:
-      accessTokenUri: http://app-mobile-api-355317418.ap-southeast-1.elb.amazonaws.com/user-service/uaa/oauth/token
-      userAuthorizationUri: http://app-mobile-api-355317418.ap-southeast-1.elb.amazonaws.com/user-service/uaa/oauth/authorize
+      accessTokenUri: http://localhost:8080/uaa/oauth/token
+      userAuthorizationUri: http://localhost:8080/uaa/oauth/authorize
       clientId: acme
       clientSecret: acmesecret
     sso:
@@ -20,7 +20,7 @@ security:
           -----END PUBLIC KEY-----
       id: openid
       serviceId: ${PREFIX:}resource
-      userInfoUri: http://app-mobile-api-355317418.ap-southeast-1.elb.amazonaws.com/user-service/uaa/user
+      userInfoUri: http://localhost:8080/uaa/user
       preferTokenInfo: false
 proxy:
   auth:
