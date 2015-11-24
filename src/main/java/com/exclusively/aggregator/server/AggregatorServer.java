@@ -24,8 +24,10 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
 import com.codahale.metrics.graphite.GraphiteSender;
+import com.exclusively.aggregator.controller.AggregationController;
 import com.exclusively.aggregator.controller.CartAggregationController;
 import com.exclusively.aggregator.services.CartAggregatorService;
+import com.exclusively.aggregator.services.CatalogAggregatorService;
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Lists;
 
@@ -99,10 +101,10 @@ public class AggregatorServer {
 	 * 
 	 * @return A new service instance.
 	 */
-//	@Bean
-//	public AggregationController aggregatorController() {
-//		return new AggregationController();
-//	}
+	@Bean
+	public AggregationController aggregatorController() {
+		return new AggregationController();
+	}
 	//	@Bean
 	//	public PollScheduler runMonitoring() {
 	//		HystrixPlugins.getInstance().registerMetricsPublisher(HystrixServoMetricsPublisher.getInstance());
@@ -156,9 +158,7 @@ public class AggregatorServer {
 								.responseModel(new ModelRef("Error"))
 								.build()))
 				.securitySchemes(Lists.newArrayList(apiKey()))
-				.securityContexts(Lists.newArrayList(securityContext()))
-				//.enableUrlTemplating(true)
-				;
+				.securityContexts(Lists.newArrayList(securityContext()));
 	}
 
 	@Autowired

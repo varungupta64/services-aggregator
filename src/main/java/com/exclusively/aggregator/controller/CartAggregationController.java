@@ -10,11 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,14 +41,14 @@ public class CartAggregationController {
 		Map<String, String> validateUser = validateUser(request, response);
 		return validateUser;
 	}
-	@RequestMapping(value = "/cart/getCart")
+	@RequestMapping(value = "/getCart")
 	public @ResponseBody CartView getCart(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = validateUser(request, response);
 		CartView account = catalogService.getCart(validateUser.get(ID));
 		return account;
 	}
 
-	@RequestMapping(value = "/cart/addProduct/{sku}/quantity/{quantity}")
+	@RequestMapping(value = "/addProduct/sku/{sku}/quantity/{quantity}")
 	public @ResponseBody String addProductToCart(@PathVariable("sku") String sku,
 			@PathVariable("quantity") Integer quantity, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = validateUser(request, response);
@@ -85,10 +84,12 @@ public class CartAggregationController {
 			result.put(ID, name);
 			result.put(IS_GUEST, "false");
 		}
+//		result.put(ID, "123");
+//		result.put(IS_GUEST, "isGuest");
 		return result;
 	}
 
-	@RequestMapping(value = "/cart/clearCart")
+	@RequestMapping(value = "/clearCart")
 	public @ResponseBody CartView clearCart(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = validateUser(request, response);
 		CartView account = catalogService.clearCart(validateUser.get(ID));

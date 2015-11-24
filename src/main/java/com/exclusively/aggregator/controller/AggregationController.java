@@ -1,6 +1,10 @@
 package com.exclusively.aggregator.controller;
 
+import java.util.Map;
 import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,12 +22,15 @@ import com.exclusively.aggregator.services.CatalogAggregatorService;
 @RestController
 public class AggregationController {
 
-//	@Autowired
+	//@Autowired
 	protected CatalogAggregatorService catalogService;
 
 	protected Logger logger = Logger.getLogger(AggregationController.class.getName());
 
-
+	@RequestMapping("/")
+	public String goHome(HttpServletRequest request, HttpServletResponse response) {
+		return "Test";
+	}
 
 	@RequestMapping(value = "/category/id/{catId}")
 	public @ResponseBody String getByCategoryId(@PathVariable("catId") String catId) {
