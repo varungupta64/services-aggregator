@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
@@ -23,7 +24,8 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
 import com.codahale.metrics.graphite.GraphiteSender;
-import com.exclusively.aggregator.services.CatalogAggregatorService;
+import com.exclusively.aggregator.controller.CartAggregationController;
+import com.exclusively.aggregator.services.CartAggregatorService;
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Lists;
 
@@ -57,6 +59,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableZuulProxy
 @EnableIntegration
 @EnableSwagger2
+@EnableOAuth2Sso
 public class AggregatorServer {
 
 	public static final String OMS_SERVICE_URL = "http://FLOOR-API";
@@ -86,10 +89,10 @@ public class AggregatorServer {
 	 * 
 	 * @return A new service instance.
 	 */
-//	@Bean
-//	public CartAggregatorService cartService() {
-//		return new CartAggregatorService();
-//	}
+	@Bean
+	public CartAggregatorService cartService() {
+		return new CartAggregatorService();
+	}
 		
 	/**
 	 * The AccountService encapsulates the interaction with the micro-service.
@@ -201,10 +204,10 @@ public class AggregatorServer {
 //	 * 
 //	 * @return A new service instance.
 //	 */
-//	@Bean
-//	public CartAggregationController cartController() {
-//		return new CartAggregationController();
-//	}
+	@Bean
+	public CartAggregationController cartController() {
+		return new CartAggregationController();
+	}
 	
 //	@Bean
 //	public PollScheduler runMonitoring() {
