@@ -63,12 +63,12 @@ public class CartAggregatorService {
 		// String result = restTemplate.getForObject(serviceUrl + "/cart");
 		CartView cartView = new CartView();
 		String urlParams = "getCart/id/" + id;
-		String result = sendGet(urlParams);
+		String result = getCartInfo(urlParams);
 		Type cartType = new TypeToken<Cart>() {
 		}.getType();
 		Cart cart = new Gson().fromJson(result.toString(), cartType);
 
-		List<CompactProduct> products = sendPost(Lists.newArrayList(cart.getProductQuantityMapping().keySet()));
+		List<CompactProduct> products = getSkuInfo(Lists.newArrayList(cart.getProductQuantityMapping().keySet()));
 		float totalPrice = 0;
 
 		for (CompactProduct compactProduct : products) {
@@ -95,7 +95,7 @@ public class CartAggregatorService {
 		return cartView;
 	}
 
-	private String sendGet(String urlParams) {
+	private String getCartInfo(String urlParams) {
 
 		try {
 			String url = "http://localhost:8080/cart/";
@@ -123,7 +123,7 @@ public class CartAggregatorService {
 		}
 	}
 
-	private List<CompactProduct> sendPost(List<String> skus) {
+	private List<CompactProduct> getSkuInfo(List<String> skus) {
 
 		String url = "http://10.11.22.10:3001/catalog/fetch/sku/product";
 
@@ -165,14 +165,14 @@ public class CartAggregatorService {
 	public String addProductToCart(String id, String isGuest, String sku, int quantity) {
 		List<String> skus = new ArrayList<String>();
 		skus.add(sku);
-		List<CompactProduct> products = sendPost(skus);
+		List<CompactProduct> products = getSkuInfo(skus);
 		if (CollectionUtils.isNotEmpty(products)) {
 			CompactProduct product = products.get(0);
 			int availableQty = Integer.parseInt(product.getQty());
 			if (availableQty >= quantity) {
-				String urlParams = "removeProduct/" + ID + SEPERATOR + id + SEPERATOR + IS_GUEST + SEPERATOR + isGuest
+				String urlParams = "addProduct/" + ID + SEPERATOR + id + SEPERATOR + IS_GUEST + SEPERATOR + isGuest
 						+ SEPERATOR + PRODUCT_ID + SEPERATOR + sku + SEPERATOR + QUANTITY + SEPERATOR + quantity;
-				String sendGet = sendGet(urlParams);
+				String sendGet = getCartInfo(urlParams);
 				return sendGet;
 			}
 		}
@@ -181,7 +181,12 @@ public class CartAggregatorService {
 
 	public String removeProduct(String id, String sku) {
 		String urlParams = "removeProduct/" + ID + SEPERATOR + "productId" + SEPERATOR + sku;
-		String sendGet = sendGet(urlParams);
+		String sendGet = getCartInfo(urlParams);
 		return sendGet;
+	}
+
+	public CartView clearCart(String string) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -88,4 +88,10 @@ public class CartAggregationController {
 		return result;
 	}
 
+	@RequestMapping(value = "/cart/clearCart")
+	public @ResponseBody CartView clearCart(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, String> validateUser = validateUser(request, response);
+		CartView account = catalogService.clearCart(validateUser.get(ID));
+		return account;
+	}
 }
