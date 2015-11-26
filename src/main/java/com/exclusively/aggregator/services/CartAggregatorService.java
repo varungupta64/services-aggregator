@@ -184,8 +184,13 @@ public class CartAggregatorService {
 		return sendGet;
 	}
 
-	public CartView clearCart(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public String clearCart(String id) {
+		String urlParams = "clearCart/" + ID + SEPERATOR;
+		String result = getCartInfo(urlParams);
+		return result;
 	}
 }
+
+
+
+

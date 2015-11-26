@@ -60,7 +60,8 @@ public class CartAggregationController {
 
 	public Map<String, String> validateUser(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String name = auth.getName();
+		String name = ANONYMOUS;
+		//String name = auth.getName();
 		Map<String, String> result = new HashMap<>();
 		if (name.equals("anonymousUser")) {
 			String visitorId = null;
@@ -93,10 +94,11 @@ public class CartAggregationController {
 		return result;
 	}
 
-	@RequestMapping(value = "/clearCart")
-	public @ResponseBody CartView clearCart(HttpServletRequest request, HttpServletResponse response) {
+
+	@RequestMapping(value = "/cart/clearCart")
+	public @ResponseBody String clearCart(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = validateUser(request, response);
-		CartView account = catalogService.clearCart(validateUser.get(ID));
+		String account = catalogService.clearCart(validateUser.get(ID));
 		return account;
 	}
 }

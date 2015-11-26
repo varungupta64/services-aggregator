@@ -1,4 +1,4 @@
-package com.exclusively.aggregator.controller;
+/*package com.exclusively.aggregator.controller;
 
 import java.io.IOException;
 
@@ -72,3 +72,5 @@ public class LoginConfigurer extends WebSecurityConfigurerAdapter {
 
 	}
 }
+}*/
+

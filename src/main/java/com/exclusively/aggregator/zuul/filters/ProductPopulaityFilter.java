@@ -14,8 +14,8 @@ public class ProductPopulaityFilter extends ZuulFilter {
 		long timeStart = System.currentTimeMillis();
 		RequestContext context = RequestContext.getCurrentContext();
 			try {
-				//TODO configure logback
-				 log.info(context.getRequest().getRemoteHost() +"," + context.getRequest().getRequestURI().split("/")[4]);
+			//TODO configure logback
+			//	 log.info(context.getRequest().getRemoteHost() +"," + context.getRequest().getRequestURI().split("/")[4]);
 				 System.out.println(context.getRequest().getRemoteHost() +"," + context.getRequest().getRequestURI().split("/")[4]);
 				
 			} catch (Exception e) {
