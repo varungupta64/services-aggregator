@@ -98,5 +98,9 @@ public class CartView {
 		this.productQuantityMapping = productQuantityMapping;
 	}
 	
+<<<<<<< Updated upstream
+=======
+	
+>>>>>>> Stashed changes
 	
 }
