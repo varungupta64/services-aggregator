@@ -1,6 +1,5 @@
 package com.exclusively.aggregator.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -21,10 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exclusively.aggregator.services.AddressAggregatorService;
-import com.exclusively.aggregator.services.CartAggregatorService;
-import com.google.gson.Gson;
-import com.amazonaws.util.json.JSONArray;
-import com.amazonaws.util.json.JSONException;
 import com.exclusively.aggregator.entities.Address;
 
 @RestController
@@ -37,7 +32,7 @@ public class AddressAggregationController {
 	public static String IS_GUEST = "isGuest";
 	public static String ANONYMOUS = "anonymousUser";
 
-	/*@RequestMapping("/")
+	@RequestMapping("/")
 	public Map<String, String> goHome(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = validateUser(request, response);
 		return validateUser;
@@ -70,43 +65,54 @@ public class AddressAggregationController {
 			result.put(IS_GUEST, "false");
 		}
 		return result;
-	}*/
-
-	/*@RequestMapping(value="/saveAddress", method=RequestMethod.POST)
-	@ResponseBody
-	public String saveAddress(@RequestBody Address address) {
-		address.setCountry("India");
-		addressService.saveAddress(address);
-		return "Address added";
-	}*/
+	}
 
 	@RequestMapping(value="/deleteAddress/addressId/{addressId}", method=RequestMethod.GET)
 	@ResponseBody
-	public String deleteAddress(@PathVariable String addressId) {
-		return addressService.deleteAddress(addressId);
+	public String deleteAddress(@PathVariable String addressId, HttpServletRequest request, HttpServletResponse response) {
+		Map<String, String> validateUser = validateUser(request, response);
+		if(validateUser.get("IS_GUEST") == "false") {
+			return addressService.deleteAddress(addressId);
+		}
+		else {
+			return "User Validation Failed";
+		}
 	}
 
 	@RequestMapping(value="/saveAddress", method=RequestMethod.POST)
 	@ResponseBody
-	public String saveAddress(@RequestBody Address address) {
-		return addressService.saveAddress(address);
+	public String saveAddress(@RequestBody Address address, HttpServletRequest request, HttpServletResponse response) {
+		Map<String, String> validateUser = validateUser(request, response);
+		if(validateUser.get("IS_GUEST") == "false") {
+			return addressService.saveAddress(address);
+		}
+		else {
+			return "User Validation Failed";
+		}
 	}
 
 	@RequestMapping(value="/getAddress", method=RequestMethod.GET)
 	@ResponseBody
-	public String getAddress(String email) {
-		try {
-			String addressForEmail = addressService.getAddress(email);
-			return addressForEmail;
-		} catch (Exception e) {
-			return null;
+	public String getAddress(String email, HttpServletRequest request, HttpServletResponse response) {
+		Map<String, String> validateUser = validateUser(request, response);
+		if(validateUser.get("IS_GUEST") == "false") {
+			return addressService.getAddress(email);
+		}
+		else {
+			return "User Validation Failed";
 		}
 	}
-	
+
 	@RequestMapping(value="/updateAddress", method=RequestMethod.POST)
 	@ResponseBody
-	public String updateAddress(@RequestBody Address address) {
-		return addressService.updateAddress(address);
+	public String updateAddress(@RequestBody Address address, HttpServletRequest request, HttpServletResponse response) {
+		Map<String, String> validateUser = validateUser(request, response);
+		if(validateUser.get("IS_GUEST") == "false") {
+			return addressService.updateAddress(address);
+		}
+		else {
+			return "User Validation Failed";
+		}
 	}
 
 }

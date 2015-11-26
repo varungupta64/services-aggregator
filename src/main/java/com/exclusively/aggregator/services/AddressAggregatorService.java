@@ -3,7 +3,6 @@ package com.exclusively.aggregator.services;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,23 +10,16 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import com.amazonaws.util.json.JSONArray;
-import com.amazonaws.util.json.JSONException;
-import com.amazonaws.util.json.JSONObject;
 import com.exclusively.aggregator.entities.Address;
-import com.exclusively.aggregator.entities.CompactProduct;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
+@SuppressWarnings("deprecation")
 @Component
 public class AddressAggregatorService {
 
