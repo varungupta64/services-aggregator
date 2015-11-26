@@ -26,37 +26,33 @@ public class LoginConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-//		http.logout().and().antMatcher("/**").authorizeRequests()
-//		.antMatchers("/index.html", "/home.html", "/", "/login").permitAll()
-//		.anyRequest().authenticated().and().csrf().
-//		.csrfTokenRepository(csrfTokenRepository()).and()
-//		.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
-		
-		http.antMatcher("/**").authorizeRequests().anyRequest().anonymous().and()
-		.antMatcher("/cart/**").authorizeRequests().anyRequest()
-		.hasAnyRole("AUTHENTICATED_USER","ANONYMOUS").and()
-//		.antMatcher("/cart/user/login/**").authorizeRequests().anyRequest().hasRole("AUTHENTICATED_USER").and()
-//				.csrfTokenRepository(csrfTokenRepository()).and()
-//				.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
-				
-				.logout().logoutUrl("/cart/logout").permitAll()
-				.logoutSuccessUrl("/").and()
-				//.rememberMe().rememberMeCookieName("REMEMBER_ME_TOKEN")
-			//	.and()
+		// http.logout().and().antMatcher("/**").authorizeRequests()
+		// .antMatchers("/index.html", "/home.html", "/", "/login").permitAll()
+		// .anyRequest().authenticated().and().csrf().
+		// .csrfTokenRepository(csrfTokenRepository()).and()
+		// .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
+
+		http.antMatcher("/**").authorizeRequests().anyRequest().hasAnyRole("AUTHENTICATED_USER", "ANONYMOUS").and()
+				// .antMatcher("/cart/**").authorizeRequests().anyRequest()
+				// .hasAnyRole("AUTHENTICATED_USER","ANONYMOUS").and()
+				// .antMatcher("/cart/user/login/**").authorizeRequests().anyRequest().hasRole("AUTHENTICATED_USER").and()
+				// .csrfTokenRepository(csrfTokenRepository()).and()
+				// .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
+
+				.logout().logoutUrl("/cart/logout").permitAll().logoutSuccessUrl("/").and()
+				// .rememberMe().rememberMeCookieName("REMEMBER_ME_TOKEN")
+				// .and()
 				.sessionManagement().sessionFixation().migrateSession();
 	}
 
 	private Filter csrfHeaderFilter() {
 		return new OncePerRequestFilter() {
 			@Override
-			protected void doFilterInternal(HttpServletRequest request,
-					HttpServletResponse response, FilterChain filterChain)
-					throws ServletException, IOException {
-				CsrfToken csrf = (CsrfToken) request
-						.getAttribute(CsrfToken.class.getName());
+			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+					FilterChain filterChain) throws ServletException, IOException {
+				CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
 				if (csrf != null) {
-					Cookie cookie = new Cookie("XSRF-TOKEN",
-							csrf.getToken());
+					Cookie cookie = new Cookie("XSRF-TOKEN", csrf.getToken());
 					cookie.setPath("/");
 					response.addCookie(cookie);
 				}
@@ -74,8 +70,5 @@ public class LoginConfigurer extends WebSecurityConfigurerAdapter {
 	@Controller
 	public static class LoginErrors {
 
-	
-
 	}
 }
-

@@ -77,6 +77,7 @@ public class CartAggregationController {
 				Cookie cookie = new Cookie("visitorId", visitorId);
 				cookie.setHttpOnly(false);
 				cookie.setMaxAge(Integer.MAX_VALUE);
+				//cookie.setPath("/cart");
 				response.addCookie(cookie);
 				result.put(ID, visitorId);
 			} else {

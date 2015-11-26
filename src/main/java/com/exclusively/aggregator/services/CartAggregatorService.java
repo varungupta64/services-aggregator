@@ -37,8 +37,8 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 public class CartAggregatorService {
 
 	public static String ID = "id";
-	public static String IS_GUEST = "id";
-	public static String PRODUCT_ID = "id";
+	public static String IS_GUEST = "isGuest";
+	public static String PRODUCT_ID = "productId";
 	public static String QUANTITY = "quantity";
 	public static String SEPERATOR = "/";
 
