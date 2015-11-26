@@ -80,30 +80,30 @@ public class AggregatorServer {
 	 * 
 	 * @return A new service instance.
 	 */
-	@Bean
-	public CatalogAggregatorService orderService() {
-		return new CatalogAggregatorService(OMS_SERVICE_URL);
-	}
+//	@Bean
+//	public CatalogAggregatorService orderService() {
+//		return new CatalogAggregatorService(OMS_SERVICE_URL);
+//	}
 
 	/**
 	 * The AccountService encapsulates the interaction with the micro-service.
 	 * 
 	 * @return A new service instance.
 	 */
-	@Bean
-	public CartAggregatorService cartService() {
-		return new CartAggregatorService();
-	}
+//	@Bean
+//	public CartAggregatorService cartService() {
+//		return new CartAggregatorService();
+//	}
 		
 	/**
 	 * The AccountService encapsulates the interaction with the micro-service.
 	 * 
 	 * @return A new service instance.
 	 */
-	@Bean
-	public AggregationController aggregatorController() {
-		return new AggregationController();
-	}
+//	@Bean
+//	public AggregationController aggregatorController() {
+//		return new AggregationController();
+//	}
 	//	@Bean
 	//	public PollScheduler runMonitoring() {
 	//		HystrixPlugins.getInstance().registerMetricsPublisher(HystrixServoMetricsPublisher.getInstance());

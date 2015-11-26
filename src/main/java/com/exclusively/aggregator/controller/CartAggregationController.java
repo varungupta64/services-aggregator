@@ -60,7 +60,7 @@ public class CartAggregationController {
 
 	public Map<String, String> validateUser(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String name = ANONYMOUS;
+		String name = auth.getName();
 		//String name = auth.getName();
 		Map<String, String> result = new HashMap<>();
 		if (name.equals("anonymousUser")) {
@@ -89,8 +89,6 @@ public class CartAggregationController {
 			result.put(ID, name);
 			result.put(IS_GUEST, "false");
 		}
-//		result.put(ID, "123");
-//		result.put(IS_GUEST, "isGuest");
 		return result;
 	}
 
