@@ -1,7 +1,7 @@
 security:
   user:
     password: none
-  ignored: /,/favicon.ico,/index.html,/home.html,/dashboard.html,/js/**,/css/**,/webjars/**
+  ignored: /favicon.ico,/index.html,/home.html,/dashboard.html,/js/**,/css/**,/webjars/**
   sessions: ALWAYS
   
   oauth2:

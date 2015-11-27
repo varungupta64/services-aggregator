@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exclusively.aggregator.entities.CartView;
+import com.exclusively.aggregator.server.UserValidator;
 import com.exclusively.aggregator.services.CartAggregatorService;
 
 /**
@@ -38,65 +39,31 @@ public class CartAggregationController {
 
 	@RequestMapping("/index")
 	public Authentication goHome(HttpServletRequest request, HttpServletResponse response) {
-		//Map<String, String> validateUser = validateUser(request, response);
+		// Map<String, String> validateUser = validateUser(request, response);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return auth;
 	}
+
 	@RequestMapping(value = "/getCart")
 	public @ResponseBody CartView getCart(HttpServletRequest request, HttpServletResponse response) {
-		Map<String, String> validateUser = validateUser(request, response);
- 		CartView account = catalogService.getCart(validateUser.get(ID));
+		Map<String, String> validateUser = UserValidator.validateUser(request, response);
+		CartView account = catalogService.getCart(validateUser.get(ID));
 		return account;
 	}
 
 	@RequestMapping(value = "/addProduct/sku/{sku}/quantity/{quantity}")
 	public @ResponseBody String addProductToCart(@PathVariable("sku") String sku,
 			@PathVariable("quantity") Integer quantity, HttpServletRequest request, HttpServletResponse response) {
-		Map<String, String> validateUser = validateUser(request, response);
+		Map<String, String> validateUser = UserValidator.validateUser(request, response);
 		String account = catalogService.addProductToCart(validateUser.get(ID), validateUser.get(IS_GUEST), sku,
 				quantity);
 
 		return account;
 	}
 
-	public Map<String, String> validateUser(HttpServletRequest request, HttpServletResponse response) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String name = auth.getName();
-		//String name = auth.getName();
-		Map<String, String> result = new HashMap<>();
-		if (name.equals("anonymousUser")) {
-			String visitorId = null;
-			if(request.getCookies() != null) {
-				for (Cookie cookie : request.getCookies()) {
-					if (cookie.getName().equals("visitorId")) {
-						visitorId = cookie.getValue();
-					}
-				}
-			}
-			
-			if (StringUtils.isEmpty(visitorId)) {
-				visitorId = UUID.randomUUID().toString();
-				Cookie cookie = new Cookie("visitorId", visitorId);
-				cookie.setHttpOnly(false);
-				cookie.setMaxAge(Integer.MAX_VALUE);
-				//cookie.setPath("/cart");
-				response.addCookie(cookie);
-				result.put(ID, visitorId);
-			} else {
-				result.put(ID, visitorId);
-			}
-			result.put(IS_GUEST, "true");
-		} else {
-			result.put(ID, name);
-			result.put(IS_GUEST, "false");
-		}
-		return result;
-	}
-
-
 	@RequestMapping(value = "/cart/clearCart")
 	public @ResponseBody String clearCart(HttpServletRequest request, HttpServletResponse response) {
-		Map<String, String> validateUser = validateUser(request, response);
+		Map<String, String> validateUser = UserValidator.validateUser(request, response);
 		String account = catalogService.clearCart(validateUser.get(ID));
 		return account;
 	}
