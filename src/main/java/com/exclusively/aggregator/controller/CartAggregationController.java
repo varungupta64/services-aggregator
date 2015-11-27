@@ -36,15 +36,16 @@ public class CartAggregationController {
 	public static String IS_GUEST = "isGuest";
 	public static String ANONYMOUS = "anonymousUser";
 
-	@RequestMapping("/")
-	public Map<String, String> goHome(HttpServletRequest request, HttpServletResponse response) {
-		Map<String, String> validateUser = validateUser(request, response);
-		return validateUser;
+	@RequestMapping("/index")
+	public Authentication goHome(HttpServletRequest request, HttpServletResponse response) {
+		//Map<String, String> validateUser = validateUser(request, response);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return auth;
 	}
 	@RequestMapping(value = "/getCart")
 	public @ResponseBody CartView getCart(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = validateUser(request, response);
-		CartView account = catalogService.getCart(validateUser.get(ID));
+ 		CartView account = catalogService.getCart(validateUser.get(ID));
 		return account;
 	}
 

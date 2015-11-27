@@ -1,5 +1,6 @@
 package com.exclusively.aggregator.controller;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -19,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exclusively.aggregator.services.AddressAggregatorService;
 import com.exclusively.aggregator.entities.Address;
+import com.exclusively.aggregator.services.AddressAggregatorService;
 
 @RestController
 @RequestMapping("/address")
