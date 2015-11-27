@@ -14,9 +14,9 @@ public class ProductPopulaityFilter extends ZuulFilter {
 		long timeStart = System.currentTimeMillis();
 		RequestContext context = RequestContext.getCurrentContext();
 			try {
-			//TODO configure logback
-			//	 log.info(context.getRequest().getRemoteHost() +"," + context.getRequest().getRequestURI().split("/")[4]);
-				 System.out.println(context.getRequest().getRemoteHost() +"," + context.getRequest().getRequestURI().split("/")[4]);
+				//TODO configure logback
+				 log.info(context.getRequest().getRemoteHost() +"," + context.getRequest().getRequestURI().split("/")[5]);
+				 System.out.println(context.getRequest().getRemoteHost() +"," + context.getRequest().getRequestURI().split("/")[5]);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -30,7 +30,7 @@ public class ProductPopulaityFilter extends ZuulFilter {
 
 	@Override
 	public boolean shouldFilter() {
-		return RequestContext.getCurrentContext().getRequest().getRequestURI().contains("product/id") 
+		return RequestContext.getCurrentContext().getRequest().getRequestURI().contains("product/fetch/id") 
 				&& RequestContext.getCurrentContext().getRequest().getMethod().equals(RequestMethod.GET.name())
 				&& (RequestContext.getCurrentContext().getResponseStatusCode() == 200);
 	}
