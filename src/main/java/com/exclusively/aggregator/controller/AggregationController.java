@@ -1,5 +1,6 @@
 package com.exclusively.aggregator.controller;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -7,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.MapUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -31,16 +35,19 @@ public class AggregationController {
 	protected CatalogAggregatorService catalogService;
 
 	protected Logger logger = Logger.getLogger(AggregationController.class.getName());
-	String key = "token";
+	String key = "X-API-TOKEN";
 
 	/**
 	 * this method will be intercepted after successful login and set necessary details in static Map.
 	 * @param request
 	 * @param response
 	 * @return
+	 * @throws IOException 
+	 * @throws JsonMappingException 
+	 * @throws JsonGenerationException 
 	 */
 	@RequestMapping(value = "/", produces = { "application/json" })
-	public @ResponseBody Map<String, String> goHome(HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody Map<String, String> goHome(HttpServletRequest request, HttpServletResponse response) throws JsonGenerationException, JsonMappingException, IOException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Object details = auth.getDetails();
 		if (null != details && details instanceof OAuth2AuthenticationDetails) {
@@ -58,7 +65,8 @@ public class AggregationController {
 			//Setting AccessToken- Authentication and UserName - AccessToken
 			UserValidator.tokenAuthMap.put(headerMap.get(key), auth);
 			UserValidator.userTokenMap.put(principal,headerMap.get(key));
-			
+			headerMap.put("customer",new ObjectMapper().writeValueAsString(principal));
+			response.setHeader(key, oauth.getTokenValue());
 			return headerMap;
 		}
 		return MapUtils.EMPTY_MAP;
