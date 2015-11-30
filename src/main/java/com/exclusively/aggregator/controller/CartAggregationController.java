@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -61,10 +62,23 @@ public class CartAggregationController {
 		return account;
 	}
 
-	@RequestMapping(value = "/cart/clearCart")
+	@RequestMapping(value = "/clearCart")
 	public @ResponseBody String clearCart(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
 		String account = catalogService.clearCart(validateUser.get(ID));
 		return account;
 	}
+	
+	@RequestMapping(value = "/getCartCount")
+	public @ResponseBody String getCartCount(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, String> validateUser = UserValidator.validateUser(request, response);
+		return catalogService.getCartCount(validateUser.get(ID));
+	}
+	
+	@RequestMapping(value = "/mergeCart")
+	public @ResponseBody String mergeCart(HttpServletRequest request, HttpServletResponse response) {
+		//TODO: get both visitorId and emailId somehow and call mergeCat
+		throw new NotImplementedException();
+	}
+	
 }
