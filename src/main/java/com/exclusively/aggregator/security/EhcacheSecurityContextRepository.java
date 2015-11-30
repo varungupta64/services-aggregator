@@ -17,8 +17,6 @@ import org.springframework.security.web.context.HttpRequestResponseHolder;
 import org.springframework.security.web.context.SecurityContextRepository;
 
 import lombok.AllArgsConstructor;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 @AllArgsConstructor
 public class EhcacheSecurityContextRepository implements SecurityContextRepository {
 	
@@ -105,16 +103,16 @@ public class EhcacheSecurityContextRepository implements SecurityContextReposito
 		return null;
 	}
 
-	public boolean contains(String cacheName, Object o) {
-		  Ehcache cache = (Ehcache) cacheManager.getCache(cacheName).getNativeCache();
-		  for (Object key: cache.getKeys()) {
-		    Element element = cache.get(key);
-		    System.out.println("Key-- " + key);
-		    if (element != null && element.getObjectValue().equals(o)) {
-		      return true;
-		    }
-		  }
-		  return false;
-		}
+//	public boolean contains(String cacheName, Object o) {
+//		  Ehcache cache = (Ehcache) cacheManager.getCache(cacheName).getNativeCache();
+//		  for (Object key: cache.getKeys()) {
+//		    Element element = cache.get(key);
+//		    System.out.println("Key-- " + key);
+//		    if (element != null && element.getObjectValue().equals(o)) {
+//		      return true;
+//		    }
+//		  }
+//		  return false;
+//		}
 
 }

@@ -160,7 +160,7 @@ public class CartAggregatorService {
 		}
 	}
 
-	public String addProductToCart(String id, String isGuest, String sku, int quantity) {
+	public boolean addProductToCart(String id, String isGuest, String sku, int quantity) {
 		List<String> skus = new ArrayList<String>();
 		skus.add(sku);
 		List<CompactProduct> products = getSkuInfo(skus);
@@ -171,22 +171,30 @@ public class CartAggregatorService {
 				String urlParams = "addProduct/" + ID + SEPERATOR + id + SEPERATOR + IS_GUEST + SEPERATOR + isGuest
 						+ SEPERATOR + PRODUCT_ID + SEPERATOR + sku + SEPERATOR + QUANTITY + SEPERATOR + quantity;
 				String sendGet = getCartInfo(urlParams);
-				return sendGet;
+				if(sendGet.equals("200")) {
+					return true;
+				}
 			}
 		}
-		return HttpStatus.BAD_REQUEST.name();
+		return false;
 	}
 
-	public String removeProduct(String id, String sku) {
+	public boolean removeProduct(String id, String sku) {
 		String urlParams = "removeProduct/" + ID + SEPERATOR + "productId" + SEPERATOR + sku;
 		String sendGet = getCartInfo(urlParams);
-		return sendGet;
+		if(sendGet.equals("200")) {
+			return true;
+		}
+		return false;
 	}
 
-	public String clearCart(String id) {
+	public boolean clearCart(String id) {
 		String urlParams = "clearCart/" + ID + SEPERATOR;
 		String result = getCartInfo(urlParams);
-		return result;
+		if(result.equals("200")) {
+			return true;
+		}
+		return false;
 	}
 
 	public String getCartCount(String id) {

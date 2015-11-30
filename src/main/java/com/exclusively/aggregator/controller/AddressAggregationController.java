@@ -27,7 +27,7 @@ public class AddressAggregationController {
 	public static String IS_GUEST = "isGuest";
 	public static String ANONYMOUS = "anonymousUser";
 
-	@RequestMapping("/")
+	@RequestMapping(value = "/", method = RequestMethod.GET, produces = { "application/json" })
 	public Map<String, String> goHome(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
 		return validateUser;

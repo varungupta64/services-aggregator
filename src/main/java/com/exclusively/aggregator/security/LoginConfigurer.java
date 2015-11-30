@@ -26,39 +26,37 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import net.sf.ehcache.config.CacheConfiguration;
-
 @Component
 @EnableOAuth2Sso
 @EnableCaching
 public class LoginConfigurer extends WebSecurityConfigurerAdapter  {
 
-	@Override
-	public void configure(HttpSecurity http) throws Exception {
-
-		// http.logout().and().antMatcher("/**").authorizeRequests()
-		// .antMatchers("/index.html", "/home.html", "/", "/login").permitAll()
-		// .anyRequest().authenticated().and().csrf().
-		// .csrfTokenRepository(csrfTokenRepository()).and()
-		// .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
-
-		http.antMatcher("/**").authorizeRequests().anyRequest().hasAnyRole("AUTHENTICATED_USER", "ANONYMOUS")
-		.and()
-				// .antMatcher("/cart/**").authorizeRequests().anyRequest()
-				// .hasAnyRole("AUTHENTICATED_USER","ANONYMOUS").and()
-				// .antMatcher("/cart/user/login/**").authorizeRequests().anyRequest().hasRole("AUTHENTICATED_USER").and()
-				// .csrfTokenRepository(csrfTokenRepository()).and()
-				// .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
-				.csrf().disable().logout().logoutUrl("/cart/logout").permitAll().logoutSuccessUrl("/").and()
-				// .rememberMe().rememberMeCookieName("REMEMBER_ME_TOKEN")
-				// .and()
-
-		.sessionManagement().sessionFixation().migrateSession()
-		.and()
-		.securityContext()
-				.securityContextRepository(ehcacheSecurityContextRepository())
-				.and().headers().addHeaderWriter(new TokenHeaderWriter());
-	}
+//	@Override
+//	public void configure(HttpSecurity http) throws Exception {
+//
+//		// http.logout().and().antMatcher("/**").authorizeRequests()
+//		// .antMatchers("/index.html", "/home.html", "/", "/login").permitAll()
+//		// .anyRequest().authenticated().and().csrf().
+//		// .csrfTokenRepository(csrfTokenRepository()).and()
+//		// .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
+//
+//		http.antMatcher("/**").authorizeRequests().anyRequest().hasAnyRole("AUTHENTICATED_USER", "ANONYMOUS")
+//		.and()
+//				// .antMatcher("/cart/**").authorizeRequests().anyRequest()
+//				// .hasAnyRole("AUTHENTICATED_USER","ANONYMOUS").and()
+//				// .antMatcher("/cart/user/login/**").authorizeRequests().anyRequest().hasRole("AUTHENTICATED_USER").and()
+//				// .csrfTokenRepository(csrfTokenRepository()).and()
+//				// .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
+//				.csrf().disable().logout().logoutUrl("/cart/logout").permitAll().logoutSuccessUrl("/").and()
+//				// .rememberMe().rememberMeCookieName("REMEMBER_ME_TOKEN")
+//				// .and()
+//
+//		.sessionManagement().sessionFixation().migrateSession()
+//		.and()
+//		.securityContext()
+//				.securityContextRepository(ehcacheSecurityContextRepository())
+//				.and().headers().addHeaderWriter(new TokenHeaderWriter());
+//	}
 
 	
 
@@ -83,23 +81,23 @@ public class LoginConfigurer extends WebSecurityConfigurerAdapter  {
 		repository.setHeaderName("X-XSRF-TOKEN");
 		return repository;
 	}
-	 @Bean(destroyMethod="shutdown")
-	    public net.sf.ehcache.CacheManager ehCacheManager() {
-	        CacheConfiguration cacheConfiguration = new CacheConfiguration();
-	        cacheConfiguration.setName("SSSC");
-	        cacheConfiguration.setMemoryStoreEvictionPolicy("LRU");
-	        cacheConfiguration.setMaxEntriesLocalHeap(1000);
-
-	        net.sf.ehcache.config.Configuration config = new net.sf.ehcache.config.Configuration();
-	        config.addCache(cacheConfiguration);
-
-	        return net.sf.ehcache.CacheManager.newInstance(config);
-	    }
-
-	    @Bean
-	    public CacheManager cacheManager() {
-	        return new EhCacheCacheManager(ehCacheManager());
-	    }
+//	 @Bean(destroyMethod="shutdown")
+//	    public net.sf.ehcache.CacheManager ehCacheManager() {
+//	        CacheConfiguration cacheConfiguration = new CacheConfiguration();
+//	        cacheConfiguration.setName("SSSC");
+//	        cacheConfiguration.setMemoryStoreEvictionPolicy("LRU");
+//	        cacheConfiguration.setMaxEntriesLocalHeap(1000);
+//
+//	        net.sf.ehcache.config.Configuration config = new net.sf.ehcache.config.Configuration();
+//	        config.addCache(cacheConfiguration);
+//
+//	        return net.sf.ehcache.CacheManager.newInstance(config);
+//	    }
+//
+//	    @Bean
+//	    public CacheManager cacheManager() {
+//	        return new EhCacheCacheManager(ehCacheManager());
+//	    }
 
 //	    @Bean
 //	    @Override
@@ -118,10 +116,10 @@ public class LoginConfigurer extends WebSecurityConfigurerAdapter  {
 //			// TODO Auto-generated method stub
 //			return null;
 //		}
-		@Bean
-		public SecurityContextRepository ehcacheSecurityContextRepository() {
-			return new EhcacheSecurityContextRepository(cacheManager(), new ConcurrentHashMap<String,SecurityContext>());
-		}
+//		@Bean
+//		public SecurityContextRepository ehcacheSecurityContextRepository() {
+//			return new EhcacheSecurityContextRepository(cacheManager(), new ConcurrentHashMap<String,SecurityContext>());
+//		}
 
 
 	@Controller
