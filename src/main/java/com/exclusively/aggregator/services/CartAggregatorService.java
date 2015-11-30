@@ -188,6 +188,11 @@ public class CartAggregatorService {
 		String result = getCartInfo(urlParams);
 		return result;
 	}
+
+	public String getCartCount(String id) {
+		String urlParams = "getCartCount/id/" + id;
+		return getCartInfo(urlParams);
+	}
 }
 
 

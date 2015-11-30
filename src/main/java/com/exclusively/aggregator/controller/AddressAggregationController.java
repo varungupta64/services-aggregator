@@ -1,6 +1,5 @@
 package com.exclusively.aggregator.controller;
 
-
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,51 +33,49 @@ public class AddressAggregationController {
 		return validateUser;
 	}
 
-
-	@RequestMapping(value="/deleteAddress/addressId/{addressId}", method=RequestMethod.GET)
+	@RequestMapping(value = "/deleteAddress/addressId/{addressId}", method = RequestMethod.GET, produces = {
+			"application/json" })
 	@ResponseBody
-	public String deleteAddress(@PathVariable String addressId, HttpServletRequest request, HttpServletResponse response) {
+	public String deleteAddress(@PathVariable String addressId, HttpServletRequest request,
+			HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		if(validateUser.get("IS_GUEST") == "false") {
+		if (validateUser.get("IS_GUEST") == "false") {
 			return addressService.deleteAddress(addressId);
-		}
-		else {
+		} else {
 			return "User Validation Failed";
 		}
 	}
 
-	@RequestMapping(value="/saveAddress", method=RequestMethod.POST)
+	@RequestMapping(value = "/saveAddress", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody
 	public String saveAddress(@RequestBody Address address, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		if(validateUser.get("IS_GUEST") == "false") {
+		if (validateUser.get("IS_GUEST") == "false") {
 			return addressService.saveAddress(address);
-		}
-		else {
+		} else {
 			return "User Validation Failed";
 		}
 	}
 
-	@RequestMapping(value="/getAddress", method=RequestMethod.GET)
+	@RequestMapping(value = "/getAddress", method = RequestMethod.GET, produces = { "application/json" })
 	@ResponseBody
 	public String getAddress(String email, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		if(validateUser.get("IS_GUEST") == "false") {
+		if (validateUser.get("IS_GUEST") == "false") {
 			return addressService.getAddress(email);
-		}
-		else {
+		} else {
 			return "User Validation Failed";
 		}
 	}
 
-	@RequestMapping(value="/updateAddress", method=RequestMethod.POST)
+	@RequestMapping(value = "/updateAddress", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody
-	public String updateAddress(@RequestBody Address address, HttpServletRequest request, HttpServletResponse response) {
+	public String updateAddress(@RequestBody Address address, HttpServletRequest request,
+			HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		if(validateUser.get("IS_GUEST") == "false") {
+		if (validateUser.get("IS_GUEST") == "false") {
 			return addressService.updateAddress(address);
-		}
-		else {
+		} else {
 			return "User Validation Failed";
 		}
 	}
