@@ -96,7 +96,7 @@ public class CartAggregatorService {
 	private String getCartInfo(String urlParams) {
 
 		try {
-			String url = "http://http://10.11.19.23/:8080/cart/";
+			String url = "http://10.11.19.23:8080/cart/";
 			url = url + urlParams;
 
 			HttpClient client = new DefaultHttpClient();

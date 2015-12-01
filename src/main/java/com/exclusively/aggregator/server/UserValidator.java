@@ -20,38 +20,44 @@ public class UserValidator {
 	public static final Map<String, String> userTokenMap = new HashMap<String, String>();
 
 	public static Map<String, String> validateUser(HttpServletRequest request, HttpServletResponse response) {
-		String header = request.getHeader("token");
-		Authentication auth = null;
-		
-		if (header != null) {
-			auth = UserValidator.tokenAuthMap.get(header);
-			//If Token is found in Token Authentication Map
-			if (auth != null) {
-				SecurityContextHolder.getContext().setAuthentication(auth);
-			}
-		}
-
-		//If Token is not found in TokenAuthentication Map
-		if (auth == null) {
-			auth = SecurityContextHolder.getContext().getAuthentication();
-		}
-		
-		String name = auth.getName();
 		Map<String, String> result = new HashMap<>();
-		if (name.equals("anonymousUser")) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		// If Token is not found in TokenAuthentication Map
+		if (auth == null) {
+
 			String visitorId = request.getHeader("visitorId");
-			if (StringUtils.isNotEmpty(visitorId)) {
-					visitorId = request.getHeader("visitorId");
-			}else {
+			if (visitorId == null) {
+				visitorId = checkCookie(request);
+			}
+			if (StringUtils.isEmpty(visitorId)) {
 				visitorId = UUID.randomUUID().toString();
 				response.setHeader("visitorId", visitorId);
+				setCookie(response, visitorId);
 			}
 			result.put(ID, visitorId);
 			result.put(IS_GUEST, "true");
 		} else {
-			result.put(ID, name);
+			result.put(ID, auth.getName());
 			result.put(IS_GUEST, "false");
 		}
 		return result;
+
+	}
+
+	private static void setCookie(HttpServletResponse response, String visitorId) {
+		Cookie cookie = new Cookie("visitorId", visitorId);
+		cookie.setHttpOnly(false);
+		cookie.setMaxAge(Integer.MAX_VALUE);
+		response.addCookie(cookie);
+
+	}
+
+	private static String checkCookie(HttpServletRequest request) {
+		for (Cookie cookie : request.getCookies()) {
+			if (cookie.getName().equals("visitorId")) {
+				return cookie.getValue();
+			}
+		}
+		return null;
 	}
 }

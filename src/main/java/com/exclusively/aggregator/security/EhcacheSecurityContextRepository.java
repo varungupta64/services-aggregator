@@ -76,19 +76,27 @@ public class EhcacheSecurityContextRepository implements SecurityContextReposito
 		Authentication auth = context.getAuthentication();		
 		if(auth != null) {
 			Object details = auth.getDetails();
-			OAuth2AuthenticationDetails oauth = (OAuth2AuthenticationDetails) details;
-			String token = oauth.getTokenValue();
-			if(token != null) {
-//				this.getCache().put(token, context);
-//				this.getCache().put(checkCookie(arg1), context);
-				mapCache.put(token, context);
-				mapCache.put(checkCookieFromResponse(response), context);
-				response.setHeader("X-API-TOKEN", token);
-				Cookie cookie = new Cookie("X-API-TOKEN", token);
-				cookie.setPath("/");
-				cookie.setMaxAge(Integer.MAX_VALUE);;
-				response.addCookie(cookie);
+			
+			if (details instanceof OAuth2AuthenticationDetails) {
+				OAuth2AuthenticationDetails oauth = (OAuth2AuthenticationDetails) details;
+				String token = oauth.getTokenValue();
+				if(token != null) {
+					mapCache.put(token, context);					
+////					response.setHeader("X-API-TOKEN", token);
+////					Cookie cookie = new Cookie("X-API-TOKEN", token);
+////					cookie.setPath("/");
+//					cookie.setMaxAge(Integer.MAX_VALUE);;
+//					response.addCookie(cookie);
+				}
+				String jsessionId = checkCookieFromResponse(response) ;
+				if(jsessionId != null) {
+					mapCache.put(jsessionId, context);
+				}
+				
+				
 			}
+			
+			
 			
 		}
 		

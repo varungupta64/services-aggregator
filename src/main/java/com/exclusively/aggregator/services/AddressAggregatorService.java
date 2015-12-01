@@ -29,7 +29,7 @@ public class AddressAggregatorService {
 	public static String ADDRESS_ID = "addressId";
 	public static String EMAIL = "email";
 	public static String SEPERATOR = "/";
-	public static String BASE_ADDRESS = "http://localhost:8080/";
+	public static String BASE_ADDRESS = "http://10.11.19.24:8080/";
 
 	public String saveAddress(Address address) {
 		String url = BASE_ADDRESS + "address/saveAddress";

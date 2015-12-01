@@ -56,8 +56,8 @@ public class LoginConfigurer extends WebSecurityConfigurerAdapter  {
 		.sessionManagement().sessionFixation().migrateSession()
 		.and()
 		.securityContext()
-				.securityContextRepository(ehcacheSecurityContextRepository())
-				.and().headers().addHeaderWriter(new TokenHeaderWriter());
+				.securityContextRepository(ehcacheSecurityContextRepository());
+//				.and().headers().addHeaderWriter(new TokenHeaderWriter());
 	}
 
 
