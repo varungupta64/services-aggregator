@@ -23,7 +23,7 @@ public class UserValidator {
 		Map<String, String> result = new HashMap<>();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		// If Token is not found in TokenAuthentication Map
-		if (auth == null) {
+		if (auth == null || auth.getName().equals(ANONYMOUS)) {
 
 			String visitorId = request.getHeader("visitorId");
 			if (visitorId == null) {
@@ -53,9 +53,11 @@ public class UserValidator {
 	}
 
 	private static String checkCookie(HttpServletRequest request) {
-		for (Cookie cookie : request.getCookies()) {
-			if (cookie.getName().equals("visitorId")) {
-				return cookie.getValue();
+		if(request.getCookies() != null) {
+			for (Cookie cookie : request.getCookies()) {
+				if (cookie.getName().equals("visitorId")) {
+					return cookie.getValue();
+				}
 			}
 		}
 		return null;
