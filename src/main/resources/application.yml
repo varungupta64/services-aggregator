@@ -27,4 +27,3 @@ proxy:
     routes:
       catalog: none
 
-#http://app-mobile-api-355317418.ap-southeast-1.elb.amazonaws.com/user-service/uaa/user
