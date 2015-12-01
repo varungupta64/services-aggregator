@@ -39,7 +39,7 @@ public class AddressAggregationController {
 	public String deleteAddress(@PathVariable String addressId, HttpServletRequest request,
 			HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		if (validateUser.get("IS_GUEST") == "false") {
+		if (validateUser.get(IS_GUEST) == "false") {
 			return addressService.deleteAddress(addressId);
 		} else {
 			return "User Validation Failed";
@@ -50,7 +50,7 @@ public class AddressAggregationController {
 	@ResponseBody
 	public String saveAddress(@RequestBody Address address, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		if (validateUser.get("IS_GUEST") == "false") {
+		if (validateUser.get(IS_GUEST) == "false") {
 			return addressService.saveAddress(address);
 		} else {
 			return "User Validation Failed";
@@ -61,7 +61,7 @@ public class AddressAggregationController {
 	@ResponseBody
 	public String getAddress(String email, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		if (validateUser.get("IS_GUEST") == "false") {
+		if (validateUser.get(IS_GUEST) == "false") {
 			return addressService.getAddress(email);
 		} else {
 			return "User Validation Failed";
@@ -73,7 +73,7 @@ public class AddressAggregationController {
 	public String updateAddress(@RequestBody Address address, HttpServletRequest request,
 			HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		if (validateUser.get("IS_GUEST") == "false") {
+		if (validateUser.get(IS_GUEST) == "false") {
 			return addressService.updateAddress(address);
 		} else {
 			return "User Validation Failed";
