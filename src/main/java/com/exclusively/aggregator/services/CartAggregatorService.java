@@ -15,7 +15,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import com.exclusively.aggregator.entities.Cart;
@@ -76,10 +75,22 @@ public class CartAggregatorService {
 			if (availbleQuantity != 0) {
 				if (originalQuantity >= availbleQuantity) {
 					totalPrice += originalQuantity * Float.parseFloat(compactProduct.getMsrp());
-					cartView.getProductQuantityMapping().put(compactProduct, originalQuantity);
+					if(cartView.getCompactProducts().contains(compactProduct)){
+						CompactProduct product = cartView.getCompactProducts().get(cartView.getCompactProducts().indexOf(compactProduct));
+						product.setCurrentQuantity(originalQuantity);
+					}else{
+						compactProduct.setCurrentQuantity(originalQuantity);
+						cartView.getCompactProducts().add(compactProduct);
+					}
 				} else {
 					totalPrice += originalQuantity * Float.parseFloat(compactProduct.getMsrp());
-					cartView.getProductQuantityMapping().put(compactProduct, originalQuantity);
+					if(cartView.getCompactProducts().contains(compactProduct)){
+						CompactProduct product = cartView.getCompactProducts().get(cartView.getCompactProducts().indexOf(compactProduct));
+						product.setCurrentQuantity(originalQuantity);
+					}else{
+						compactProduct.setCurrentQuantity(originalQuantity);
+						cartView.getCompactProducts().add(compactProduct);
+					}
 				}
 			}
 		}

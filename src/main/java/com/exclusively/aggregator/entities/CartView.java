@@ -1,10 +1,13 @@
 package com.exclusively.aggregator.entities;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class CartView {
 
@@ -24,7 +27,10 @@ public class CartView {
 	
 	private float netPrice;
 	
-	private Map<CompactProduct,Integer> productQuantityMapping = new HashMap<CompactProduct,Integer>();
+	private List<CompactProduct> compactProducts = new ArrayList<CompactProduct>();
+	
+//	private Map<CompactProduct,Integer> productQuantityMapping = null;
+	
 
 	public String getId() {
 		return id;
@@ -90,13 +96,16 @@ public class CartView {
 		this.netPrice = netPrice;
 	}
 
-	public Map<CompactProduct, Integer> getProductQuantityMapping() {
-		return productQuantityMapping;
-	}
-
-	public void setProductQuantityMapping(Map<CompactProduct, Integer> productQuantityMapping) {
-		this.productQuantityMapping = productQuantityMapping;
-	}
-	
+//	public Map<CompactProduct, Integer> getProductQuantityMapping() {
+//		if(this.productQuantityMapping == null){
+//			this.productQuantityMapping = new HashMap<CompactProduct,Integer>();
+//		}
+//		return productQuantityMapping;
+//	}
+//
+//	public void setProductQuantityMapping(Map<CompactProduct, Integer> productQuantityMapping) {
+//		this.productQuantityMapping = productQuantityMapping;
+//	}
+//	
 	
 }
