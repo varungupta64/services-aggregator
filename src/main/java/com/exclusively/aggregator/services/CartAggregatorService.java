@@ -75,22 +75,13 @@ public class CartAggregatorService {
 			if (availbleQuantity != 0) {
 				if (originalQuantity >= availbleQuantity) {
 					totalPrice += originalQuantity * Float.parseFloat(compactProduct.getMsrp());
-					if(cartView.getCompactProducts().contains(compactProduct)){
-						CompactProduct product = cartView.getCompactProducts().get(cartView.getCompactProducts().indexOf(compactProduct));
-						product.setCurrentQuantity(originalQuantity);
-					}else{
-						compactProduct.setCurrentQuantity(originalQuantity);
-						cartView.getCompactProducts().add(compactProduct);
-					}
+					compactProduct.setCurrentQuantity(originalQuantity);
+					cartView.getCompactProducts().add(compactProduct);
 				} else {
 					totalPrice += originalQuantity * Float.parseFloat(compactProduct.getMsrp());
-					if(cartView.getCompactProducts().contains(compactProduct)){
-						CompactProduct product = cartView.getCompactProducts().get(cartView.getCompactProducts().indexOf(compactProduct));
-						product.setCurrentQuantity(originalQuantity);
-					}else{
-						compactProduct.setCurrentQuantity(originalQuantity);
-						cartView.getCompactProducts().add(compactProduct);
-					}
+
+					compactProduct.setCurrentQuantity(originalQuantity);
+					cartView.getCompactProducts().add(compactProduct);
 				}
 			}
 		}
@@ -182,7 +173,7 @@ public class CartAggregatorService {
 				String urlParams = "addProduct/" + ID + SEPERATOR + id + SEPERATOR + IS_GUEST + SEPERATOR + isGuest
 						+ SEPERATOR + PRODUCT_ID + SEPERATOR + sku + SEPERATOR + QUANTITY + SEPERATOR + quantity;
 				String sendGet = getCartInfo(urlParams);
-				if(sendGet.equals("200")) {
+				if (sendGet.equals("200")) {
 					return true;
 				}
 			}
@@ -193,7 +184,7 @@ public class CartAggregatorService {
 	public boolean removeProduct(String id, String sku) {
 		String urlParams = "removeProduct/" + ID + SEPERATOR + "productId" + SEPERATOR + sku;
 		String sendGet = getCartInfo(urlParams);
-		if(sendGet.equals("200")) {
+		if (sendGet.equals("200")) {
 			return true;
 		}
 		return false;
@@ -202,7 +193,7 @@ public class CartAggregatorService {
 	public boolean clearCart(String id) {
 		String urlParams = "clearCart/" + ID + SEPERATOR;
 		String result = getCartInfo(urlParams);
-		if(result.equals("200")) {
+		if (result.equals("200")) {
 			return true;
 		}
 		return false;
@@ -213,7 +204,3 @@ public class CartAggregatorService {
 		return getCartInfo(urlParams);
 	}
 }
-
-
-
-
