@@ -29,9 +29,10 @@ public class AddressAggregatorService {
 	public static String ADDRESS_ID = "addressId";
 	public static String EMAIL = "email";
 	public static String SEPERATOR = "/";
+	public static String BASE_ADDRESS = "http://localhost:8080/";
 
 	public String saveAddress(Address address) {
-		String url = "http://localhost:8080/address/saveAddress";
+		String url = BASE_ADDRESS + "address/saveAddress";
 
 		try {
 			HttpClient client = new DefaultHttpClient();
@@ -40,11 +41,10 @@ public class AddressAggregatorService {
 			List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 
 			urlParameters.add(new BasicNameValuePair("addressJson", new Gson().toJson(address)));
-			//post.set
+			// post.set
 			post.setHeader("Content-Type", "application/json");
-			//post.setEntity(new UrlEncodedFormEntity(urlParameters));
+			// post.setEntity(new UrlEncodedFormEntity(urlParameters));
 			post.setEntity(new StringEntity(new Gson().toJson(address)));
-			
 
 			HttpResponse response = client.execute(post);
 			System.out.println("\nSending 'POST' request to URL : " + url);
@@ -68,7 +68,7 @@ public class AddressAggregatorService {
 	}
 
 	public String deleteAddress(String addressId) {
-		//System.out.println(addressId);
+		// System.out.println(addressId);
 		String urlParams = "/address/deleteAddress/addressId/" + addressId;
 		String result = resultFromApi(urlParams);
 		return result;
@@ -78,7 +78,7 @@ public class AddressAggregatorService {
 
 		try {
 
-			String url = "http://localhost:8080";
+			String url = BASE_ADDRESS;
 			url = url + urlparams;
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet(url);
@@ -102,14 +102,14 @@ public class AddressAggregatorService {
 	}
 
 	public String getAddress(String email) {
-		String urlparams = "/address/getAddress/?email="+email;
+		String urlparams = "/address/getAddress/?email=" + email;
 		String addressesForEmail = resultFromApi(urlparams);
 		return addressesForEmail;
 
 	}
 
 	public String updateAddress(Address address) {
-		String url = "http://localhost:8080/address/updateAddress";
+		String url = BASE_ADDRESS + "address/updateAddress";
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost post = new HttpPost(url);
@@ -117,11 +117,10 @@ public class AddressAggregatorService {
 			List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 
 			urlParameters.add(new BasicNameValuePair("addressJson", new Gson().toJson(address)));
-			//post.set
+			// post.set
 			post.setHeader("Content-Type", "application/json");
-			//post.setEntity(new UrlEncodedFormEntity(urlParameters));
+			// post.setEntity(new UrlEncodedFormEntity(urlParameters));
 			post.setEntity(new StringEntity(new Gson().toJson(address)));
-			
 
 			HttpResponse response = client.execute(post);
 			System.out.println("\nSending 'POST' request to URL : " + url);
