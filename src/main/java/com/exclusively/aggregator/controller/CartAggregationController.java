@@ -1,5 +1,6 @@
 package com.exclusively.aggregator.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.exclusively.aggregator.entities.CartView;
 import com.exclusively.aggregator.server.UserValidator;
 import com.exclusively.aggregator.services.CartAggregatorService;
+import com.google.common.collect.Maps;
 
 /**
  * Client controller, fetches Cart info from the microservice
@@ -51,25 +53,32 @@ public class CartAggregationController {
 
 	@RequestMapping(value = "/addProduct/sku/{sku}/quantity/{quantity}", produces = {
 			"application/json" }, method = RequestMethod.GET)
-	public @ResponseBody boolean addProductToCart(@PathVariable("sku") String sku,
+	public @ResponseBody Map<String, String> addProductToCart(@PathVariable("sku") String sku,
 			@PathVariable("quantity") Integer quantity, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
 		boolean account = catalogService.addProductToCart(validateUser.get(ID), validateUser.get(IS_GUEST), sku,
 				quantity);
-		return account;
+		Map<String, String> newHashMapWithExpectedSize = Maps.newHashMapWithExpectedSize(1);
+		newHashMapWithExpectedSize.put("success", new Boolean(account).toString());
+		return newHashMapWithExpectedSize;
 	}
 
 	@RequestMapping(value = "/clearCart", produces = { "application/json" }, method = RequestMethod.GET)
-	public @ResponseBody boolean clearCart(HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody Map<String, String> clearCart(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
 		boolean account = catalogService.clearCart(validateUser.get(ID));
-		return account;
+		Map<String, String> newHashMapWithExpectedSize = Maps.newHashMapWithExpectedSize(1);
+		newHashMapWithExpectedSize.put("success", new Boolean(account).toString());
+		return newHashMapWithExpectedSize;
 	}
 
 	@RequestMapping(value = "/getCartCount", produces = { "application/json" }, method = RequestMethod.GET)
-	public @ResponseBody String getCartCount(HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody Map<String, String> getCartCount(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		return catalogService.getCartCount(validateUser.get(ID));
+		String cartCount = catalogService.getCartCount(validateUser.get(ID));
+		Map<String, String> newHashMapWithExpectedSize = Maps.newHashMapWithExpectedSize(1);
+		newHashMapWithExpectedSize.put("cartCount", cartCount);
+		return newHashMapWithExpectedSize;
 	}
 
 	@RequestMapping(value = "/mergeCart", produces = { "application/json" }, method = RequestMethod.GET)
