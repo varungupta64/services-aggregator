@@ -59,9 +59,9 @@ public class AggregationController {
 	 * @throws JsonGenerationException 
 	 */
 	@RequestMapping(value = "/", produces = { "application/json" })
-	public @ResponseBody Map<String, Account> goHome(HttpServletRequest request, HttpServletResponse response) throws JsonGenerationException, JsonMappingException, IOException {
+	public @ResponseBody Map<String, Object> goHome(HttpServletRequest request, HttpServletResponse response) throws JsonGenerationException, JsonMappingException, IOException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Map<String, Account> accountDetails = new HashMap<String, Account>();
+		Map<String, Object> accountDetails = new HashMap<String, Object>();
 		Object details = auth.getDetails();
 		if (null != details && details instanceof OAuth2AuthenticationDetails) {
 			OAuth2AuthenticationDetails oauth = (OAuth2AuthenticationDetails) details;
@@ -76,7 +76,8 @@ public class AggregationController {
 				while ((line = bufferedReader.readLine()) != null) {
 					Gson gson = new Gson();
 					Account account = gson.fromJson(line, Account.class);
-					accountDetails.put("status", account);
+					accountDetails.put("userDetails", account);
+					accountDetails.put("status", Boolean.TRUE);
 				}
 			}catch(Exception exception){
 				logger.info("Exception occured : "+exception.getStackTrace());
