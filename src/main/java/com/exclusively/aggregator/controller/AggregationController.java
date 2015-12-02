@@ -78,6 +78,7 @@ public class AggregationController {
 					Account account = gson.fromJson(line, Account.class);
 					accountDetails.put("userDetails", account);
 					accountDetails.put("status", Boolean.TRUE);
+					response.setHeader(key, oauth.getTokenValue());
 				}
 			}catch(Exception exception){
 				logger.info("Exception occured : "+exception.getStackTrace());
