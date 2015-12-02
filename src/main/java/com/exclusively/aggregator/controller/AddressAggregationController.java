@@ -34,7 +34,7 @@ public class AddressAggregationController {
 	}
 
 	@RequestMapping(value = "/deleteAddress/addressId/{addressId}", method = RequestMethod.GET, produces = {
-			"application/json" })
+	"application/json" })
 	@ResponseBody
 	public String deleteAddress(@PathVariable String addressId, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -51,6 +51,7 @@ public class AddressAggregationController {
 	public String saveAddress(@RequestBody Address address, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
 		if (validateUser.get(IS_GUEST) == "false") {
+			address.setEmail(validateUser.get(ID));
 			return addressService.saveAddress(address);
 		} else {
 			return "User Validation Failed";
@@ -62,7 +63,8 @@ public class AddressAggregationController {
 	public String getAddress(String email, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
 		if (validateUser.get(IS_GUEST) == "false") {
-			return addressService.getAddress(email);
+			//return addressService.getAddress(email);
+			return addressService.getAddress(validateUser.get(ID));
 		} else {
 			return "User Validation Failed";
 		}
@@ -74,6 +76,7 @@ public class AddressAggregationController {
 			HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
 		if (validateUser.get(IS_GUEST) == "false") {
+			address.setEmail(validateUser.get(ID));
 			return addressService.updateAddress(address);
 		} else {
 			return "User Validation Failed";
