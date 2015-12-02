@@ -1,6 +1,5 @@
 package com.exclusively.aggregator.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.exclusively.aggregator.entities.CartView;
 import com.exclusively.aggregator.server.UserValidator;
-import com.exclusively.aggregator.services.CartAggregatorService;
+import com.exclusively.aggregator.services.CartService;
 import com.google.common.collect.Maps;
 
 /**
@@ -32,7 +31,7 @@ import com.google.common.collect.Maps;
 @RequestMapping("/cart")
 public class CartAggregationController {
 	@Autowired
-	protected CartAggregatorService catalogService;
+	protected CartService cartService;
 	public static String ID = "id";
 	public static String IS_GUEST = "isGuest";
 	public static String ANONYMOUS = "anonymousUser";
@@ -47,7 +46,7 @@ public class CartAggregationController {
 	@RequestMapping(value = "/getCart", produces = { "application/json" }, method = RequestMethod.GET)
 	public @ResponseBody CartView getCart(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		CartView account = catalogService.getCart(validateUser.get(ID));
+		CartView account = cartService.getCart(validateUser.get(ID));
 		return account;
 	}
 
@@ -56,7 +55,7 @@ public class CartAggregationController {
 	public @ResponseBody Map<String, String> addProductToCart(@PathVariable("sku") String sku,
 			@PathVariable("quantity") Integer quantity, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		boolean account = catalogService.addProductToCart(validateUser.get(ID), validateUser.get(IS_GUEST), sku,
+		boolean account = cartService.addProductToCart(validateUser.get(ID), validateUser.get(IS_GUEST), sku,
 				quantity);
 		Map<String, String> newHashMapWithExpectedSize = Maps.newHashMapWithExpectedSize(1);
 		newHashMapWithExpectedSize.put("success", new Boolean(account).toString());
@@ -66,7 +65,7 @@ public class CartAggregationController {
 	@RequestMapping(value = "/clearCart", produces = { "application/json" }, method = RequestMethod.GET)
 	public @ResponseBody Map<String, String> clearCart(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		boolean account = catalogService.clearCart(validateUser.get(ID));
+		boolean account = cartService.clearCart(validateUser.get(ID));
 		Map<String, String> newHashMapWithExpectedSize = Maps.newHashMapWithExpectedSize(1);
 		newHashMapWithExpectedSize.put("success", new Boolean(account).toString());
 		return newHashMapWithExpectedSize;
@@ -75,7 +74,7 @@ public class CartAggregationController {
 	@RequestMapping(value = "/getCartCount", produces = { "application/json" }, method = RequestMethod.GET)
 	public @ResponseBody Map<String, String> getCartCount(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String> validateUser = UserValidator.validateUser(request, response);
-		String cartCount = catalogService.getCartCount(validateUser.get(ID));
+		String cartCount = cartService.getCartCount(validateUser.get(ID));
 		Map<String, String> newHashMapWithExpectedSize = Maps.newHashMapWithExpectedSize(1);
 		newHashMapWithExpectedSize.put("cartCount", cartCount);
 		return newHashMapWithExpectedSize;
