@@ -17,11 +17,15 @@ import org.springframework.security.web.context.HttpRequestResponseHolder;
 import org.springframework.security.web.context.SecurityContextRepository;
 
 import lombok.AllArgsConstructor;
-@AllArgsConstructor
 public class EhcacheSecurityContextRepository implements SecurityContextRepository {
 	
 	private CacheManager cacheManager;
 	private ConcurrentHashMap<String, SecurityContext> mapCache;
+
+	public EhcacheSecurityContextRepository(CacheManager cacheManager, ConcurrentHashMap<String, SecurityContext> concurrentHashMap) {
+		this.cacheManager = cacheManager;
+		this.mapCache = concurrentHashMap;
+	}
 
 	@Override
 	public boolean containsContext(HttpServletRequest request) {
