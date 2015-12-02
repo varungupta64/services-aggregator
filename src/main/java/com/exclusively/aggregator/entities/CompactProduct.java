@@ -30,6 +30,21 @@ public class CompactProduct {
 	private String cost;
 
 	private Integer currentQuantity;
-
+	
+	private String type_id;
+	
+	private String tab_sizing;
+	
+	private String categoryId;
+	
+	private String floorId;
+	
+	private String imageUrl;
+	
+	private String url_key;
+	
+	private String price;
+	
+	private MediaGallery media_gallery;
 	
 }
