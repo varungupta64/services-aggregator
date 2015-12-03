@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,13 +21,16 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EhcacheSecurityContextRepository implements SecurityContextRepository {
 	
+	RedisTemplate<String, Object> redisTemplate;
 	private CacheManager cacheManager;
 	private ConcurrentHashMap<String, SecurityContext> mapCache;
 
 	@Override
 	public boolean containsContext(HttpServletRequest request) {
-		if(this.getToken(request) != null) {
-			return mapCache.containsKey(this.getToken(request));
+		String token = this.getToken(request);
+		if(token != null) {
+			return (redisTemplate.opsForValue().get(token) != null ? true : false);
+//			return mapCache.containsKey(token);
 		} else {
 			return false;
 		}
@@ -61,8 +65,9 @@ public class EhcacheSecurityContextRepository implements SecurityContextReposito
 	@Override
 	public SecurityContext loadContext(HttpRequestResponseHolder holder) {
 		if (this.containsContext(holder.getRequest())) {
-//			return (SecurityContext) this.getCache().get(this.getToken(holder.getRequest()));
-			return (SecurityContext) mapCache.get(this.getToken(holder.getRequest()));
+			String token = this.getToken(holder.getRequest());
+			return (SecurityContext) redisTemplate.opsForValue().get(token);
+//			return (SecurityContext) mapCache.get(token);
 		} else
 			return SecurityContextHolder.getContext();
 	}
@@ -81,7 +86,8 @@ public class EhcacheSecurityContextRepository implements SecurityContextReposito
 				OAuth2AuthenticationDetails oauth = (OAuth2AuthenticationDetails) details;
 				String token = oauth.getTokenValue();
 				if(token != null) {
-					mapCache.put(token, context);					
+//					mapCache.put(token, context);		
+					redisTemplate.opsForValue().set(token,context);
 ////					response.setHeader("X-API-TOKEN", token);
 ////					Cookie cookie = new Cookie("X-API-TOKEN", token);
 ////					cookie.setPath("/");
@@ -90,18 +96,13 @@ public class EhcacheSecurityContextRepository implements SecurityContextReposito
 				}
 				String jsessionId = checkCookieFromResponse(response) ;
 				if(jsessionId != null) {
-					mapCache.put(jsessionId, context);
+//					mapCache.put(jsessionId, context);
+					redisTemplate.opsForValue().set(jsessionId,context);
 				}
-				
-				
 			}
-			
-			
-			
 		}
-		
-
 	}
+	
 	private String checkCookieFromResponse(HttpServletResponse response) {
 		if(response.getHeader("SET-COOKIE") != null) {
 			String header = new String(response.getHeader("SET-COOKIE").getBytes());

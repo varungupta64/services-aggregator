@@ -4,50 +4,27 @@ import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.joda.time.LocalDate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.ResponseEntity;
 import org.springframework.integration.config.EnableIntegration;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.async.DeferredResult;
 
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
 import com.codahale.metrics.graphite.GraphiteSender;
-import com.exclusively.aggregator.controller.AggregationController;
-import com.exclusively.aggregator.controller.CartAggregationController;
-import com.exclusively.aggregator.services.CartAggregatorService;
-import com.exclusively.aggregator.services.CatalogAggregatorService;
-import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Lists;
 
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseMessageBuilder;
-import springfox.documentation.schema.AlternateTypeRules;
-import springfox.documentation.schema.ModelRef;
-import springfox.documentation.schema.WildcardType;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.SecurityReference;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger.web.UiConfiguration;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Works as a microservice client, fetching data from the OMS-Service. Uses the

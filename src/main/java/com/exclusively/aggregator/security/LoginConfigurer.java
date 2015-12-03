@@ -10,11 +10,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.context.SecurityContext;
@@ -32,6 +34,9 @@ import net.sf.ehcache.config.CacheConfiguration;
 @EnableOAuth2Sso
 @EnableCaching
 public class LoginConfigurer extends WebSecurityConfigurerAdapter  {
+	
+	@Autowired
+	RedisTemplate<String, Object> redisTemplate;
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
@@ -119,7 +124,7 @@ public class LoginConfigurer extends WebSecurityConfigurerAdapter  {
 //		}
 		@Bean
 		public SecurityContextRepository ehcacheSecurityContextRepository() {
-			return new EhcacheSecurityContextRepository(cacheManager(), new ConcurrentHashMap<String,SecurityContext>());
+			return new EhcacheSecurityContextRepository(redisTemplate,cacheManager(), new ConcurrentHashMap<String,SecurityContext>());
 		}
 
 
